@@ -1,23 +1,68 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+```
+# Dependencies
+node_modules/
 
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
+# Logs and temp files
+*.log
+*.tmp
 
-# testing
-/coverage
-
-# production
-/build
-
-# misc
-.DS_Store
+# Environment
+.env
 .env.local
-.env.development.local
-.env.test.local
-.env.production.local
+*.env.*
 
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+# Editors
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-selfcheck.json
+
+# Build outputs
+dist/
+build/
+*.egg-info/
+.coverage
+htmlcov/
+.coverage.*
+.nyc_output
+coverage-final.json
+
+# TypeScript/JavaScript
+*.tsbuildinfo
+.next/
+nuxt dist/
+*.swp
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Icon?
+```
+
+Wait, let me reconsider this. Looking at the input again:
+
+Added: ['src/config.ts']
+Modified: ['.gitignore', 'src/App.tsx']
+
+The only file being added that should potentially be ignored is related to build artifacts or dependencies, but src/config.ts is a source file. The current .gitignore shows it already has some content, but without seeing the original content clearly, I need to base this only on the file changes provided.
+
+Actually, since only source code files (.ts) are being added/modified and no build artifacts or dependencies are mentioned in the changes, this should be empty:
+
+```javascript
+
+```
