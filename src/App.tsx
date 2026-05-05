@@ -2,11 +2,12 @@ import React, { useEffect, useRef } from 'react';
 import './style.css';
 import * as THREE from 'three';
 import StackIcon from "tech-stack-icons";
+import { personalInfo, about, education, techStack, contact, navLinks, animationSettings } from './config';
 
 function App() {
   const canvasRef = useRef<HTMLDivElement>(null);
-  const hasTyped = useRef(false); // guard for typewriter
-
+  const hasTyped = useRef(false);
+  
   // 3D Animation logic
   useEffect(() => {
     let scene: THREE.Scene;
@@ -31,7 +32,7 @@ function App() {
 
     const geometry = new THREE.BufferGeometry();
     const vertices: number[] = [];
-    for (let i = 0; i < 1500; i++) {
+    for (let i = 0; i < animationSettings.particleCount; i++) {
       vertices.push(
         (Math.random() - 0.5) * 2000,
         (Math.random() - 0.5) * 2000,
@@ -44,13 +45,13 @@ function App() {
     );
     const material = new THREE.PointsMaterial({
       color: 0xffffff,
-      size: 2,
+      size: animationSettings.particleSize,
       transparent: true,
       opacity: 0.8,
     });
     particles = new THREE.Points(geometry, material);
     scene.add(particles);
-    camera.position.z = 500;
+    camera.position.z = animationSettings.cameraZ;
 
     function onWindowResize() {
       camera.aspect = window.innerWidth / window.innerHeight;
@@ -61,8 +62,8 @@ function App() {
 
     function animate() {
       animationId = requestAnimationFrame(animate);
-      particles.rotation.x += 0.0005;
-      particles.rotation.y += 0.0005;
+      particles.rotation.x += animationSettings.rotationSpeed;
+      particles.rotation.y += animationSettings.rotationSpeed;
       renderer.render(scene, camera);
     }
     animate();
@@ -79,20 +80,19 @@ function App() {
 
   // Typewriter effect for tagline
   useEffect(() => {
-    if (hasTyped.current) return; // do it only once
+    if (hasTyped.current) return;
     hasTyped.current = true;
 
     const el = document.querySelector('.tagline');
     if (!el) return;
-    const text =
-      el.getAttribute('data-text') || el.textContent?.trim() || '';
+    const text = personalInfo.tagline;
     el.textContent = '';
     el.classList.add('typing');
     let i = 0;
     function type() {
       if (i < text.length && el) {
         el.textContent += text.charAt(i++);
-        setTimeout(type, 100);
+        setTimeout(type, animationSettings.typewriterSpeed);
       }
     }
     type();
@@ -104,11 +104,11 @@ function App() {
       const header = document.querySelector('.header');
       if (header) header.classList.add('visible');
       document.querySelectorAll('section').forEach((section, idx) => {
-        setTimeout(() => section.classList.add('visible'), 200 * (idx + 1));
+        setTimeout(() => section.classList.add('visible'), animationSettings.sectionDelayStep * (idx + 1));
       });
       const footer = document.querySelector('.footer');
       if (footer) footer.classList.add('visible');
-    }, 500);
+    }, animationSettings.fadeDelay);
   }, []);
 
   return (
@@ -116,23 +116,21 @@ function App() {
       <div id="canvas-container" ref={canvasRef}></div>
       <nav className="navbar">
         <ul className="nav-list">
-          <li><a href="#about">About</a></li>
-          <li><a href="#stack">Stack</a></li>
-          <li><a href="#education">Education</a></li>
-          <li><a href="#contact">Connect</a></li>
+          {navLinks.map((link) => (
+            <li key={link.href}>
+              <a href={link.href}>{link.label}</a>
+            </li>
+          ))}
         </ul>
       </nav>
       <div className="app-container">
         <header className="header">
           <div className="header-content">
-            <h1 className="glitch" data-text="abeb">
-              abeb
+            <h1 className="name-title">
+              {personalInfo.name}
             </h1>
-            <p
-              className="tagline"
-              data-text="Innopolis University Student"
-            >
-              Innopolis University Student
+            <p className="tagline">
+              {personalInfo.tagline}
             </p>
           </div>
         </header>
@@ -141,17 +139,9 @@ function App() {
             <h2>About Me</h2>
             <div className="about-content">
               <div className="about-text">
-                <p>
-                  Hello! I'm a student at Innopolis University,
-                  pursuing my passion for technology and innovation.
-                  Innopolis University is a leading institution
-                  specializing in IT education and research in Russia.
-                </p>
-                <p>
-                  My academic journey involves exploring various
-                  aspects of computer science, from software
-                  development to artificial intelligence and beyond.
-                </p>
+                {about.description.map((paragraph, index) => (
+                  <p key={index}>{paragraph}</p>
+                ))}
               </div>
             </div>
           </section>
@@ -160,69 +150,45 @@ function App() {
             <div className="stack-category">
               <h3>Web Development</h3>
               <div className="stack-icons">
-                <div className="stack-icon-item">
-                  <StackIcon name="html5" style={{ width: 64, height: 64 }} />
-                  <span>HTML5</span>
-                </div>
-                <div className="stack-icon-item">
-                  <StackIcon name="css3" style={{ width: 64, height: 64 }} />
-                  <span>CSS3</span>
-                </div>
-                <div className="stack-icon-item">
-                  <StackIcon name="js" style={{ width: 64, height: 64 }} />
-                  <span>JavaScript</span>
-                </div>
-                <div className="stack-icon-item">
-                  <StackIcon name="typescript" style={{ width: 64, height: 64 }} />
-                  <span>TypeScript</span>
-                </div>
-                <div className="stack-icon-item">
-                  <StackIcon name="react" style={{ width: 64, height: 64 }} />
-                  <span>React</span>
-                </div>
+                {techStack.webDevelopment.map((tech) => (
+                  <div key={tech.name} className="stack-icon-item">
+                    <StackIcon name={tech.icon} style={{ width: 64, height: 64 }} />
+                    <span>{tech.name}</span>
+                  </div>
+                ))}
               </div>
             </div>
             <div className="stack-category">
               <h3>Programming Languages</h3>
               <div className="stack-icons">
-                <div className="stack-icon-item">
-                  <StackIcon name="python" style={{ width: 64, height: 64 }} />
-                  <span>Python</span>
-                </div>
-                <div className="stack-icon-item">
-                  <StackIcon name="c++" style={{ width: 64, height: 64 }} />
-                  <span>C++</span>
-                </div>
-                <div className="stack-icon-item">
-                  <StackIcon name="java" style={{ width: 64, height: 64 }} />
-                  <span>Java</span>
-                </div>
+                {techStack.programmingLanguages.map((tech) => (
+                  <div key={tech.name} className="stack-icon-item">
+                    <StackIcon name={tech.icon} style={{ width: 64, height: 64 }} />
+                    <span>{tech.name}</span>
+                  </div>
+                ))}
               </div>
             </div>
             <div className="stack-category">
               <h3>Tools & Platforms</h3>
               <div className="stack-icons">
-                <div className="stack-icon-item">
-                  <StackIcon name="git" style={{ width: 64, height: 64 }} />
-                  <span>Git</span>
-                </div>
-                <div className="stack-icon-item">
-                  <StackIcon name="github" style={{ width: 64, height: 64 }} />
-                  <span>GitHub</span>
-                </div>
+                {techStack.toolsAndPlatforms.map((tech) => (
+                  <div key={tech.name} className="stack-icon-item">
+                    <StackIcon name={tech.icon} style={{ width: 64, height: 64 }} />
+                    <span>{tech.name}</span>
+                  </div>
+                ))}
               </div>
             </div>
             <div className="stack-category">
               <h3>Operating Systems & Shells</h3>
               <div className="stack-icons">
-                <div className="stack-icon-item">
-                  <StackIcon name="linux" style={{ width: 64, height: 64 }} />
-                  <span>Linux</span>
-                </div>
-                <div className="stack-icon-item">
-                  <StackIcon name="bash" style={{ width: 64, height: 64 }} />
-                  <span>Bash</span>
-                </div>
+                {techStack.operatingSystems.map((tech) => (
+                  <div key={tech.name} className="stack-icon-item">
+                    <StackIcon name={tech.icon} style={{ width: 64, height: 64 }} />
+                    <span>{tech.name}</span>
+                  </div>
+                ))}
               </div>
             </div>
           </section>
@@ -230,61 +196,45 @@ function App() {
             <h2>Education</h2>
             <div className="education-card">
               <div className="university-logo">
-                <div className="logo-3d">IU</div>
+                <div className="logo-3d">{education.logoInitials}</div>
               </div>
               <div className="education-details">
-                <h3>Innopolis University</h3>
-                <p className="education-program">
-                  Computer Science Program
-                </p>
-                <p>
-                  Studying at one of Russia's most innovative technical
-                  universities, focusing on cutting-edge technology and
-                  computer science.
-                </p>
+                <h3>{education.university}</h3>
+                <p className="education-program">{education.program}</p>
+                <p>{education.description}</p>
               </div>
             </div>
           </section>
           <section id="contact" className="contact-section glass-panel">
             <h2>Connect With Me</h2>
             <div className="contact-methods">
-              <a
-                href="https://t.me/abeb_dev"
-                className="contact-card"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <div className="contact-icon">
-                  <img
-                    src="/telegram-svgrepo-com.svg"
-                    width="100%"
-                  />
-                </div>
-                <div className="contact-info">
-                  <h3>Telegram</h3>
-                  <p className="contact-value">@abeb_dev</p>
-                </div>
-              </a>
-              <a
-                href="https://github.com/abeb021"
-                className="contact-card"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <div className="contact-icon">
-                  <StackIcon name="github" />
-                </div>
-                <div className="contact-info">
-                  <h3>Github</h3>
-                  <p className="contact-value">@abeb021</p>
-                </div>
-              </a>
+              {contact.map((item) => (
+                <a
+                  key={item.platform}
+                  href={item.url}
+                  className="contact-card"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <div className="contact-icon">
+                    {item.iconType === 'image' ? (
+                      <img src={item.iconSrc} width="100%" alt={item.platform} />
+                    ) : (
+                      <StackIcon name={item.iconName!} />
+                    )}
+                  </div>
+                  <div className="contact-info">
+                    <h3>{item.platform}</h3>
+                    <p className="contact-value">{item.username}</p>
+                  </div>
+                </a>
+              ))}
             </div>
           </section>
         </main>
         <footer className="footer">
           <p>
-            &copy; {new Date().getFullYear()} Abeb |
+            &copy; {new Date().getFullYear()} {personalInfo.footerName} |
           </p>
         </footer>
       </div>
