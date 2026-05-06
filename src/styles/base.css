@@ -1,0 +1,43 @@
+:root {
+  --primary-color: #ffffff;
+  --secondary-color: #cccccc;
+  --background-color: #000000;
+  --text-color: #ffffff;
+  --accent-color: #888888;
+  --header-font: 'Montserrat', sans-serif;
+  --body-font: 'Space Mono', monospace;
+  --transition-speed: 0.4s;
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-shadow: rgba(0, 0, 0, 0.3);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 70px;
+}
+
+body {
+  font-family: var(--body-font);
+  background-color: var(--background-color);
+  color: var(--text-color);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--header-font);
+  font-weight: 700;
+  color: var(--primary-color);
+}
