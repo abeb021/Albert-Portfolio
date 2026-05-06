@@ -226,7 +226,7 @@ function App() {
                 <code>
                   <span className="shell-line shell-line-1"><span className="prompt-user">abeb</span> <span className="prompt-path">~/portfolio</span></span>
                   <span className="shell-line shell-line-1"><span className="prompt-sign">❯</span> <span className="typed-cmd-1"></span></span>
-                  <span className="shell-line shell-line-2"><span className="prompt-output">junior backend developer</span></span>
+                  <span className="shell-line shell-line-2"><span className="prompt-output">backend developer</span></span>
                   <span className="shell-line shell-line-3"><span className="prompt-user">abeb</span> <span className="prompt-path">~/portfolio</span></span>
                   <span className="shell-line shell-line-4"><span className="prompt-sign">❯</span> <span className="typed-cmd-2"></span></span>
                   <span className="shell-line shell-line-5"><span className="prompt-tech">go</span> <span className="prompt-tech">kafka</span> <span className="prompt-tech">postgresql</span> </span>

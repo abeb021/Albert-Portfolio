@@ -78,7 +78,7 @@ export const navLinks = [
 
 // Animation settings
 export const animationSettings = {
-  particleCount: 1500,
+  particleCount: 15000,
   particleSize: 2,
   rotationSpeed: 0.0005,
   cameraZ: 500,
