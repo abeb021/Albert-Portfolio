@@ -10,13 +10,12 @@ type TechItem = {
 export const personalInfo = {
   name: "Albert",
   tagline: "CS Student @ Innopolis University",
-  footerName: "abeb",
+  footerName: "Albert",
 };
 
 export const about = {
-  description: [
-    "Hello! I'm a student at Innopolis University, pursuing my passion for technology and innovation. Innopolis University is a leading institution specializing in IT education and research in Russia.",
-    "My academic journey involves exploring various aspects of computer science, from software development to artificial intelligence and beyond.",
+  description: [ 
+    "I'm Albert, a Go backend developer who builds microservices and works with Kafka, PostgreSQL, and Docker. I care about how things work under the hood — not just using tools, but understanding them. I run Arch Linux as my main system and enjoy exploring how operating systems and networks function.",
   ],
 };
 

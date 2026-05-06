@@ -322,7 +322,7 @@ function App() {
         </main>
         <footer className="footer">
           <p>
-            &copy; {new Date().getFullYear()} {personalInfo.footerName} |
+            &copy; {new Date().getFullYear()} | {personalInfo.footerName}
           </p>
         </footer>
       </div>
