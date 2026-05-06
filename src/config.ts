@@ -1,8 +1,14 @@
 // Portfolio Configuration
 // Edit this file to update your portfolio content
 
+type TechItem = {
+  name: string;
+  icon: string;
+  customIcon?: string;
+};
+
 export const personalInfo = {
-  name: "abeb",
+  name: "Albert",
   tagline: "CS Student @ Innopolis University",
   footerName: "abeb",
 };
@@ -21,7 +27,7 @@ export const education = {
   logoInitials: "IU",
 };
 
-export const techStack = {
+export const techStack: Record<string, TechItem[]> = {
   languages: [
     { name: "Go", icon: "go" },
     { name: "Python", icon: "python" },
@@ -29,11 +35,9 @@ export const techStack = {
     { name: "Java", icon: "java" },
   ],
   backend: [
-    { name: "REST API", icon: "api" },
-    { name: "gRPC", icon: "grpc" },
-    { name: "Microservices", icon: "microservices" },
-    { name: "JWT", icon: "jwt" },
-    { name: "Kafka", icon: "apachekafka" },
+    { name: "REST API", icon: "api", customIcon: "/rest-api-svgrepo-com.svg" },
+    { name: "gRPC", icon: "grpc", customIcon: "/grpc-logo.svg" },
+    { name: "Kafka", icon: "apachekafka", customIcon: "/kafka-logo.svg" },
   ],
   databases: [
     { name: "PostgreSQL", icon: "postgresql" },
@@ -42,12 +46,9 @@ export const techStack = {
   ],
   devopsAndTools: [
     { name: "Docker", icon: "docker" },
-    { name: "Docker Compose", icon: "docker" },
-    { name: "CI/CD", icon: "githubactions" },
     { name: "Linux", icon: "linux" },
     { name: "Git", icon: "git" },
     { name: "Bash", icon: "bash" },
-    { name: "Zsh", icon: "bash" },
   ],
 };
 

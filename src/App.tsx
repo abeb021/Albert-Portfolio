@@ -1,13 +1,32 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './style.css';
 import * as THREE from 'three';
 import StackIcon from "tech-stack-icons";
 import { personalInfo, about, education, techStack, contact, navLinks, animationSettings } from './config';
 
+const supportedStackIcons = new Set([
+  'go',
+  'python',
+  'c++',
+  'java',
+  'grpc',
+  'apachekafka',
+  'postgresql',
+  'redis',
+  'mongodb',
+  'docker',
+  'githubactions',
+  'linux',
+  'git',
+  'bash',
+  'jwt',
+]);
+
 function App() {
   const canvasRef = useRef<HTMLDivElement>(null);
   const hasTyped = useRef(false);
   const hasTypedShell = useRef(false);
+  const [showArchLine, setShowArchLine] = useState(false);
   
   // 3D Animation logic
   useEffect(() => {
@@ -193,8 +212,15 @@ function App() {
             </p>
             <div className="prompt-window" aria-label="command prompt">
               <div className="prompt-title">
-                <img src="/archlinux-logo.svg" alt="Arch Linux" className="prompt-arch-logo" />
-                zsh • backend
+                <img
+                  src="/archlinux-logo.svg"
+                  alt="Arch Linux"
+                  className="prompt-arch-logo"
+                  onMouseEnter={() => setShowArchLine(true)}
+                  onMouseLeave={() => setShowArchLine(false)}
+                />
+                <span className={`prompt-title-text ${showArchLine ? 'is-hidden' : 'is-visible'}`}>zsh • backend</span>
+                <span className={`prompt-title-text prompt-title-arch ${showArchLine ? 'is-visible' : 'is-hidden'}`}>i use Arch btw</span>
               </div>
               <pre className="prompt-body">
                 <code>
@@ -222,19 +248,37 @@ function App() {
           </section>
           <section id="stack" className="stack-section glass-panel">
             <h2>Stack</h2>
-            {Object.entries(techStack).map(([category, items]) => (
-              <div className="stack-category" key={category}>
-                <h3>{category.replace(/([A-Z])/g, " $1").replace(/^./, (s) => s.toUpperCase())}</h3>
-                <div className="stack-icons">
-                  {items.map((tech) => (
-                    <div key={tech.name} className="stack-icon-item">
-                      <StackIcon name={tech.icon} style={{ width: 64, height: 64 }} />
-                      <span>{tech.name}</span>
-                    </div>
-                  ))}
+            <div className="stack-grid">
+            {(() => {
+              const categoryDescriptions: Record<string, string> = {
+                languages: 'Primary and supporting languages used for backend development.',
+                backend: 'APIs, communication patterns, and architecture for scalable services.',
+                databases: 'Storage engines used for transactional and cache-driven workloads.',
+                devopsAndTools: 'Containerization, automation, and daily developer environment.',
+              };
+
+              return Object.entries(techStack).map(([category, items]) => (
+                <div className="stack-category" key={category}>
+                  <h3>{category.replace(/([A-Z])/g, " $1").replace(/^./, (s) => s.toUpperCase())}</h3>
+                  <p className="stack-category-description">{categoryDescriptions[category] ?? ''}</p>
+                  <div className="stack-icons">
+                    {items.map((tech) => (
+                      <div key={tech.name} className="stack-icon-item">
+                        {tech.customIcon ? (
+                          <img src={tech.customIcon} alt={tech.name} width={44} height={44} />
+                        ) : supportedStackIcons.has(tech.icon) ? (
+                          <StackIcon name={tech.icon} style={{ width: 44, height: 44 }} />
+                        ) : (
+                          <div className="stack-icon-fallback">{tech.name.slice(0, 3).toUpperCase()}</div>
+                        )}
+                        <span>{tech.name}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ));
+            })()}
+            </div>
           </section>
           <section id="education" className="education-section glass-panel">
             <h2>Education</h2>
