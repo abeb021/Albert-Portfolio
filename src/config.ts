@@ -22,32 +22,39 @@ export const education = {
 };
 
 export const techStack = {
-  webDevelopment: [
-    { name: "HTML5", icon: "html5" },
-    { name: "CSS3", icon: "css3" },
-    { name: "JavaScript", icon: "js" },
-    { name: "TypeScript", icon: "typescript" },
-    { name: "React", icon: "react" },
-  ],
-  programmingLanguages: [
+  languages: [
+    { name: "Go", icon: "go" },
     { name: "Python", icon: "python" },
     { name: "C++", icon: "c++" },
     { name: "Java", icon: "java" },
   ],
-  toolsAndPlatforms: [
-    { name: "Git", icon: "git" },
-    { name: "GitHub", icon: "github" },
+  backend: [
+    { name: "REST API", icon: "api" },
+    { name: "gRPC", icon: "grpc" },
+    { name: "Microservices", icon: "microservices" },
+    { name: "JWT", icon: "jwt" },
+    { name: "Kafka", icon: "apachekafka" },
   ],
-  operatingSystems: [
+  databases: [
+    { name: "PostgreSQL", icon: "postgresql" },
+    { name: "Redis", icon: "redis" },
+    { name: "MongoDB", icon: "mongodb" },
+  ],
+  devopsAndTools: [
+    { name: "Docker", icon: "docker" },
+    { name: "Docker Compose", icon: "docker" },
+    { name: "CI/CD", icon: "githubactions" },
     { name: "Linux", icon: "linux" },
+    { name: "Git", icon: "git" },
     { name: "Bash", icon: "bash" },
+    { name: "Zsh", icon: "bash" },
   ],
 };
 
 export const contact = [
   {
     platform: "Telegram",
-    username: "@abeb_dev",
+    username: "@abeb021",
     url: "https://t.me/abeb_dev",
     iconType: "image",
     iconSrc: "/telegram-svgrepo-com.svg",

@@ -7,6 +7,7 @@ import { personalInfo, about, education, techStack, contact, navLinks, animation
 function App() {
   const canvasRef = useRef<HTMLDivElement>(null);
   const hasTyped = useRef(false);
+  const hasTypedShell = useRef(false);
   
   // 3D Animation logic
   useEffect(() => {
@@ -111,6 +112,64 @@ function App() {
     }, animationSettings.fadeDelay);
   }, []);
 
+  // Typewriter effect for shell commands
+  useEffect(() => {
+    if (hasTypedShell.current) return;
+    hasTypedShell.current = true;
+
+    const line2 = document.querySelector('.shell-line-2') as HTMLElement | null;
+    const line3 = document.querySelector('.shell-line-3') as HTMLElement | null;
+    const line4 = document.querySelector('.shell-line-4') as HTMLElement | null;
+    const line5 = document.querySelector('.shell-line-5') as HTMLElement | null;
+    const cmd1 = document.querySelector('.typed-cmd-1');
+    const cmd2 = document.querySelector('.typed-cmd-2');
+    if (!cmd1 || !cmd2 || !line2 || !line3 || !line4 || !line5) return;
+
+    const commandOne = 'whoami';
+    const commandTwo = 'stack --focus';
+
+    cmd1.textContent = '';
+    cmd2.textContent = '';
+    line2.style.display = 'none';
+    line3.style.display = 'none';
+    line4.style.display = 'none';
+    line5.style.display = 'none';
+
+    let i = 0;
+    let j = 0;
+
+    const typeFirst = () => {
+      if (i < commandOne.length) {
+        cmd1.textContent += commandOne.charAt(i++);
+        setTimeout(typeFirst, 110);
+      } else {
+        setTimeout(() => {
+          line2.style.display = 'block';
+          line3.style.display = 'block';
+          cmd1.classList.remove('typing-cursor');
+          cmd2.classList.add('typing-cursor');
+          typeSecond();
+        }, 220);
+      }
+    };
+
+    const typeSecond = () => {
+      if (j < commandTwo.length) {
+        line4.style.display = 'block';
+        cmd2.textContent += commandTwo.charAt(j++);
+        setTimeout(typeSecond, 110);
+      } else {
+        setTimeout(() => {
+          cmd2.classList.remove('typing-cursor');
+          line5.style.display = 'block';
+        }, 220);
+      }
+    };
+
+    cmd1.classList.add('typing-cursor');
+    setTimeout(typeFirst, 350);
+  }, []);
+
   return (
     <>
       <div id="canvas-container" ref={canvasRef}></div>
@@ -132,6 +191,22 @@ function App() {
             <p className="tagline">
               {personalInfo.tagline}
             </p>
+            <div className="prompt-window" aria-label="command prompt">
+              <div className="prompt-title">
+                <img src="/archlinux-logo.svg" alt="Arch Linux" className="prompt-arch-logo" />
+                zsh • backend
+              </div>
+              <pre className="prompt-body">
+                <code>
+                  <span className="shell-line shell-line-1"><span className="prompt-user">abeb</span> <span className="prompt-path">~/portfolio</span></span>
+                  <span className="shell-line shell-line-1"><span className="prompt-sign">❯</span> <span className="typed-cmd-1"></span></span>
+                  <span className="shell-line shell-line-2"><span className="prompt-output">junior backend developer</span></span>
+                  <span className="shell-line shell-line-3"><span className="prompt-user">abeb</span> <span className="prompt-path">~/portfolio</span></span>
+                  <span className="shell-line shell-line-4"><span className="prompt-sign">❯</span> <span className="typed-cmd-2"></span></span>
+                  <span className="shell-line shell-line-5"><span className="prompt-tech">go</span> <span className="prompt-tech">kafka</span> <span className="prompt-tech">postgresql</span> </span>
+                </code>
+              </pre>
+            </div>
           </div>
         </header>
         <main>
@@ -147,50 +222,19 @@ function App() {
           </section>
           <section id="stack" className="stack-section glass-panel">
             <h2>Stack</h2>
-            <div className="stack-category">
-              <h3>Web Development</h3>
-              <div className="stack-icons">
-                {techStack.webDevelopment.map((tech) => (
-                  <div key={tech.name} className="stack-icon-item">
-                    <StackIcon name={tech.icon} style={{ width: 64, height: 64 }} />
-                    <span>{tech.name}</span>
-                  </div>
-                ))}
+            {Object.entries(techStack).map(([category, items]) => (
+              <div className="stack-category" key={category}>
+                <h3>{category.replace(/([A-Z])/g, " $1").replace(/^./, (s) => s.toUpperCase())}</h3>
+                <div className="stack-icons">
+                  {items.map((tech) => (
+                    <div key={tech.name} className="stack-icon-item">
+                      <StackIcon name={tech.icon} style={{ width: 64, height: 64 }} />
+                      <span>{tech.name}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
-            <div className="stack-category">
-              <h3>Programming Languages</h3>
-              <div className="stack-icons">
-                {techStack.programmingLanguages.map((tech) => (
-                  <div key={tech.name} className="stack-icon-item">
-                    <StackIcon name={tech.icon} style={{ width: 64, height: 64 }} />
-                    <span>{tech.name}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="stack-category">
-              <h3>Tools & Platforms</h3>
-              <div className="stack-icons">
-                {techStack.toolsAndPlatforms.map((tech) => (
-                  <div key={tech.name} className="stack-icon-item">
-                    <StackIcon name={tech.icon} style={{ width: 64, height: 64 }} />
-                    <span>{tech.name}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="stack-category">
-              <h3>Operating Systems & Shells</h3>
-              <div className="stack-icons">
-                {techStack.operatingSystems.map((tech) => (
-                  <div key={tech.name} className="stack-icon-item">
-                    <StackIcon name={tech.icon} style={{ width: 64, height: 64 }} />
-                    <span>{tech.name}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+            ))}
           </section>
           <section id="education" className="education-section glass-panel">
             <h2>Education</h2>
