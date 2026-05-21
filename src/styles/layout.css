@@ -1,74 +1,105 @@
 #canvas-container {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
   z-index: -1;
+  opacity: 0.12;
 }
 
+/* ── NAV ── */
 .navbar {
   position: fixed;
   top: 0;
   width: 100%;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(5px);
+  background: rgba(7, 7, 7, 0.94);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   z-index: 100;
-  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
 }
 
 .nav-list {
   list-style: none;
   display: flex;
-  justify-content: center;
-  gap: 40px;
+  align-items: center;
   margin: 0;
+  padding: 0 60px;
+  width: 100%;
 }
 
 .nav-list li a {
-  color: var(--primary-color);
-  font-family: var(--header-font);
-  font-weight: 600;
+  display: block;
+  padding: 14px 18px;
+  color: var(--muted);
+  font-family: var(--body-font);
+  font-size: 0.64rem;
+  font-weight: 400;
   text-decoration: none;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  transition: color var(--transition-speed);
+  letter-spacing: 0.18em;
+  transition: color var(--transition);
 }
 
-.nav-list li a:hover {
-  color: var(--accent-color);
+.nav-list li a:hover { color: var(--text); }
+
+/* accent swatches — pushes Connect to far right */
+.nav-list li.nav-swatches {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0 18px;
+  border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border);
 }
 
-.app-container,
-.header,
-main,
-.footer {
-  scroll-margin-top: 70px;
+.accent-swatch {
+  width: 13px; height: 13px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  padding: 0;
+  background: none;
+  transition: transform 0.15s;
+  flex-shrink: 0;
+}
+.accent-swatch:hover { transform: scale(1.35); }
+.accent-swatch.active {
+  outline: 1px solid rgba(255, 255, 255, 0.55);
+  outline-offset: 2px;
+  transform: scale(1.1);
 }
 
-.glass-panel {
-  background: var(--glass-bg);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid var(--glass-border);
-  box-shadow: 0 8px 32px 0 var(--glass-shadow);
+/* Connect button — last li */
+.nav-list li:last-child a {
+  color: var(--accent);
+  border: 1px solid var(--ac-border);
+  padding: 7px 14px;
+  transition: background var(--transition), border-color var(--transition), color var(--transition);
+}
+.nav-list li:last-child a:hover {
+  background: var(--ac-fill);
+  border-color: var(--ac-hover);
+  color: var(--accent);
 }
 
+/* ── CONTAINER ── */
 .app-container {
   max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
+  margin: 0;
+  padding: 0 60px;
   position: relative;
   z-index: 1;
 }
 
+/* ── SECTIONS ── */
+main { counter-reset: section; }
+
 section {
-  margin-bottom: 80px;
-  padding: 40px;
-  border-radius: 15px;
+  border-top: 1px solid var(--border);
+  padding: 44px 0;
   opacity: 0;
-  transform: translateY(30px);
-  transition: opacity var(--transition-speed), transform var(--transition-speed);
+  transform: translateY(14px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
 }
 
 section.visible {
@@ -77,22 +108,45 @@ section.visible {
 }
 
 section h2 {
-  font-size: 2.2rem;
-  margin-bottom: 30px;
-  padding-bottom: 15px;
-  border-bottom: 2px solid var(--accent-color);
-  display: inline-block;
-  letter-spacing: 2px;
+  font-family: var(--display-font);
+  font-size: 1.6rem;
+  font-weight: 800;
+  margin-bottom: 32px;
+  letter-spacing: -0.01em;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+section h2::before {
+  counter-increment: section;
+  content: "0" counter(section) " —";
+  color: var(--accent);
+  font-family: var(--body-font);
+  font-size: 0.6em;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  flex-shrink: 0;
+}
+
+section h2::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* glass-panel stripped — kept as no-op for compat */
+.glass-panel {}
+
+@media (max-width: 900px) {
+  .app-container { padding: 0 32px; }
+  .nav-list { padding: 0 32px; }
 }
 
 @media (max-width: 768px) {
-  section {
-    padding: 30px 20px;
-  }
-}
-
-@media (max-width: 480px) {
-  section h2 {
-    font-size: 1.8rem;
-  }
+  .app-container { padding: 0 20px; }
+  .nav-list { padding: 0 20px; }
+  section { padding: 32px 0; }
+  section h2 { font-size: 1.3rem; }
 }

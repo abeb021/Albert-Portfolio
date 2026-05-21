@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mockups — Void & Oxide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+
+/* ── RESET ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: #0d0d0d; font-family: 'JetBrains Mono', monospace; }
+
+:root { --accent: #C5F037; }
+
+/* ── SHARED BASE ── */
+.wrap {
+  --ac-border:  color-mix(in srgb, var(--accent) 16%, transparent);
+  --ac-hover:   color-mix(in srgb, var(--accent) 42%, transparent);
+  --ac-fill:    color-mix(in srgb, var(--accent)  5%, transparent);
+  min-height: 100vh;
+  padding-bottom: 100px;
+}
+
+/* ════════════════════════════════════════
+   VOID THEME
+════════════════════════════════════════ */
+.void {
+  --bg:      #070707;
+  --text:    #f0f0f0;
+  --muted:   #444;
+  --border:  rgba(255,255,255,0.09);
+  --bh:      rgba(255,255,255,0.2);
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* VOID — VARIANT A (centered hero, boxed sections) */
+.void-a .v-nav {
+  background: rgba(7,7,7,0.95);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  position: sticky; top: 0; z-index: 5;
+}
+.void-a .v-nav a {
+  display: block;
+  padding: 13px 22px;
+  font-size: 0.64rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  border-right: 1px solid var(--border);
+  transition: color 0.2s;
+}
+.void-a .v-nav a:first-child { border-left: 1px solid var(--border); }
+.void-a .v-nav a:hover { color: var(--text); }
+
+.void-a .v-hero {
+  text-align: center;
+  padding: 100px 40px 90px;
+}
+.void-a .v-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--text);
+}
+.void-a .v-tagline {
+  margin-top: 14px;
+  font-size: 0.65rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.void-a .v-term {
+  max-width: 520px;
+  margin: 32px auto 0;
+  border: 1px solid var(--border);
+  background: rgba(0,0,0,0.6);
+  text-align: left;
+}
+.void-a .v-content { max-width: 1000px; margin: 0 auto; padding: 0 40px; }
+.void-a .v-section {
+  border: 1px solid var(--border);
+  padding: 36px 40px;
+  margin-bottom: 14px;
+  transition: border-color 0.2s;
+}
+.void-a .v-h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-bottom: 28px;
+  letter-spacing: -0.01em;
+}
+
+
+/* VOID — VARIANT B (left-aligned, top-border sections, larger name) */
+.void-b .v-nav {
+  background: rgba(7,7,7,0.95);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(8px);
+  display: flex;
+  position: sticky; top: 0; z-index: 5;
+  padding: 0 60px;
+  gap: 0;
+}
+.void-b .v-nav a {
+  display: block;
+  padding: 13px 20px;
+  font-size: 0.64rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.void-b .v-nav a:last-child {
+  margin-left: auto;
+  color: var(--accent);
+  border: 1px solid var(--ac-border);
+  padding: 8px 16px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.void-b .v-nav a:hover { color: var(--text); }
+.void-b .v-nav a:last-child:hover { background: var(--ac-fill); }
+
+.void-b .v-hero {
+  padding: 90px 60px 80px;
+  border-bottom: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: 1fr 440px;
+  gap: 60px;
+  align-items: end;
+}
+.void-b .v-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 9rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+  color: var(--text);
+}
+.void-b .v-name span { color: var(--accent); }
+.void-b .v-tagline {
+  margin-top: 20px;
+  font-size: 0.62rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.void-b .v-hero-right { }
+.void-b .v-term {
+  border: 1px solid var(--border);
+  background: rgba(0,0,0,0.5);
+}
+.void-b .v-content { max-width: 100%; padding: 40px 60px 0; }
+.void-b .v-section {
+  border-top: 1px solid var(--border);
+  padding: 36px 0;
+  margin-bottom: 0;
+}
+.void-b .v-section:last-child { border-bottom: 1px solid var(--border); }
+.void-b .v-h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: 28px;
+  letter-spacing: -0.01em;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.void-b .v-h2::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+
+/* ════════════════════════════════════════
+   OXIDE THEME
+════════════════════════════════════════ */
+.oxide {
+  --bg:      #100e0a;
+  --text:    #e8dfd0;
+  --muted:   rgba(232,223,208,0.3);
+  --border:  rgba(232,223,208,0.08);
+  --bh:      rgba(232,223,208,0.2);
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* OXIDE — VARIANT A (left, full-border, Space Mono) */
+.oxide-a .v-nav {
+  background: rgba(16,14,10,0.95);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(8px);
+  display: flex;
+  position: sticky; top: 0; z-index: 5;
+  padding: 0 60px;
+}
+.oxide-a .v-nav a {
+  display: block;
+  padding: 13px 20px;
+  font-size: 0.64rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+  font-family: 'Space Mono', monospace;
+}
+.oxide-a .v-nav a:hover { color: var(--text); }
+
+.oxide-a .v-hero {
+  padding: 90px 60px 80px;
+}
+.oxide-a .v-name {
+  font-family: 'Space Mono', monospace;
+  font-size: 6rem;
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  color: var(--text);
+}
+.oxide-a .v-name em {
+  font-style: italic;
+  color: var(--accent);
+}
+.oxide-a .v-tagline {
+  margin-top: 16px;
+  font-size: 0.64rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-family: 'Space Mono', monospace;
+}
+.oxide-a .v-term {
+  max-width: 500px;
+  margin-top: 36px;
+  border: 1px solid var(--border);
+  background: rgba(5,4,2,0.6);
+}
+.oxide-a .v-content { padding: 0 60px; }
+.oxide-a .v-section {
+  border: 1px solid var(--border);
+  padding: 36px 40px;
+  margin-bottom: 14px;
+  transition: border-color 0.2s;
+}
+.oxide-a .v-h2 {
+  font-family: 'Space Mono', monospace;
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 28px;
+  letter-spacing: 0.02em;
+}
+
+
+/* OXIDE — VARIANT B (large italic name, left-border sections) */
+.oxide-b .v-nav {
+  background: rgba(16,14,10,0.95);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 60px;
+  position: sticky; top: 0; z-index: 5;
+}
+.oxide-b .v-nav-left { display: flex; }
+.oxide-b .v-nav-right {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--accent);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+.oxide-b .v-nav a {
+  display: block;
+  padding: 13px 20px;
+  font-size: 0.64rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+  font-family: 'Space Mono', monospace;
+}
+.oxide-b .v-nav a:hover { color: var(--text); }
+
+.oxide-b .v-hero {
+  padding: 80px 60px 60px;
+  border-bottom: 1px solid var(--border);
+}
+.oxide-b .v-eyebrow {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 16px;
+  opacity: 0.8;
+}
+.oxide-b .v-name {
+  font-family: 'Space Mono', monospace;
+  font-size: 7.5rem;
+  font-weight: 700;
+  letter-spacing: -0.06em;
+  line-height: 0.9;
+  color: var(--text);
+}
+.oxide-b .v-name-line2 {
+  font-style: italic;
+  color: var(--muted);
+  font-size: 3.5rem;
+  display: block;
+  letter-spacing: -0.02em;
+  margin-top: 8px;
+}
+.oxide-b .v-tagline {
+  margin-top: 24px;
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-family: 'Space Mono', monospace;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.oxide-b .v-tagline::before {
+  content: '';
+  width: 24px;
+  height: 1px;
+  background: var(--accent);
+  opacity: 0.6;
+}
+.oxide-b .v-term {
+  max-width: 460px;
+  margin-top: 40px;
+  border: 1px solid var(--border);
+  background: rgba(5,4,2,0.5);
+}
+.oxide-b .v-content { padding: 0 60px; margin-top: 0; }
+.oxide-b .v-section {
+  border-left: 1px solid var(--border);
+  padding: 36px 40px;
+  margin: 24px 0;
+  transition: border-color 0.2s;
+  position: relative;
+}
+.oxide-b .v-section:hover { border-left-color: var(--accent); }
+.oxide-b .v-h2 {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+  margin-bottom: 28px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+
+/* ════════════════════════════════════════
+   SHARED COMPONENTS (all variants)
+════════════════════════════════════════ */
+
+/* Section num */
+.s-num {
+  color: var(--accent);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58em;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+
+/* Terminal */
+.v-term-bar {
+  border-bottom: 1px solid var(--border);
+  padding: 7px 14px;
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'JetBrains Mono', monospace;
+}
+.v-term-dot { width: 6px; height: 6px; background: var(--accent); flex-shrink: 0; }
+.v-term-body {
+  padding: 14px;
+  font-size: 0.8rem;
+  line-height: 1.8;
+  font-family: 'JetBrains Mono', monospace;
+}
+.t-u { color: var(--accent); }
+.t-p { color: var(--muted); }
+.t-d { color: var(--muted); }
+.t-tag {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--bg, #070707);
+  padding: 1px 7px;
+  font-size: 0.75em;
+  margin-right: 3px;
+  font-weight: 700;
+}
+
+/* About */
+.v-about {
+  font-size: 0.87rem;
+  line-height: 1.9;
+  color: var(--muted);
+  max-width: 700px;
+}
+
+/* Stack */
+.v-stack-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+.v-stack-cat {
+  border: 1px solid var(--border);
+  padding: 16px 18px;
+}
+.v-stack-cat-name {
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-family: 'JetBrains Mono', monospace;
+  margin-bottom: 10px;
+  opacity: 0.85;
+}
+.v-stack-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.v-stack-tag {
+  border: 1px solid var(--border);
+  padding: 4px 10px;
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  color: var(--text);
+  font-family: 'JetBrains Mono', monospace;
+  transition: border-color 0.2s;
+}
+.v-stack-tag:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Projects */
+.v-projects { display: flex; flex-direction: column; }
+.v-project {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  border: 1px solid var(--border);
+  margin-bottom: -1px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  position: relative;
+}
+.v-project:hover {
+  background: var(--ac-fill);
+  border-color: var(--ac-hover);
+  z-index: 1;
+}
+.v-proj-img {
+  height: 120px;
+  border-right: 1px solid var(--border);
+  background: var(--ac-fill);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.56rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  position: relative;
+  overflow: hidden;
+}
+.v-proj-img::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--ac-border) 0%, transparent 55%);
+}
+.v-proj-body { padding: 18px 22px; display: flex; flex-direction: column; gap: 8px; }
+.v-proj-row { display: flex; justify-content: space-between; align-items: flex-start; }
+.v-proj-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  transition: color 0.2s;
+  line-height: 1.2;
+}
+.void .v-proj-title { font-family: 'Syne', sans-serif; }
+.oxide .v-proj-title { font-family: 'Space Mono', monospace; font-size: 0.88rem; }
+.v-project:hover .v-proj-title { color: var(--accent); }
+.v-proj-arrow {
+  color: var(--muted);
+  font-size: 0.9rem;
+  transition: color 0.2s, transform 0.2s;
+}
+.v-project:hover .v-proj-arrow { color: var(--accent); transform: translate(2px,-2px); }
+.v-proj-desc { font-size: 0.74rem; color: var(--muted); line-height: 1.6; font-family: 'JetBrains Mono', monospace; }
+.v-tags { display: flex; gap: 5px; flex-wrap: wrap; }
+.v-tag {
+  border: 1px solid var(--border);
+  padding: 2px 7px;
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
+  transition: border-color 0.2s;
+}
+.v-project:hover .v-tag { border-color: var(--ac-border); }
+
+/* Education */
+.v-edu {
+  border: 1px solid var(--border);
+  padding: 24px 28px;
+  display: flex;
+  gap: 28px;
+  align-items: flex-start;
+  transition: border-color 0.2s;
+}
+.v-edu:hover { border-color: var(--bh); }
+.v-edu-logo {
+  width: 64px; height: 64px;
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--accent);
+  font-family: 'Syne', sans-serif;
+}
+.oxide .v-edu-logo { font-family: 'Space Mono', monospace; }
+.v-edu-uni {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.void .v-edu-uni { font-family: 'Syne', sans-serif; }
+.oxide .v-edu-uni { font-family: 'Space Mono', monospace; font-size: 1rem; }
+.v-edu-prog {
+  font-size: 0.68rem;
+  color: var(--accent);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  opacity: 0.85;
+}
+.v-edu-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.7; font-family: 'JetBrains Mono', monospace; }
+
+/* Contact */
+.v-contact { display: flex; gap: 10px; }
+.v-contact-card {
+  flex: 1;
+  border: 1px solid var(--border);
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.2s;
+}
+.v-contact-card:hover { border-color: var(--accent); }
+.v-contact-card:hover .v-cname { color: var(--accent); }
+.v-cico {
+  width: 32px; height: 32px;
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.6rem;
+  color: var(--muted);
+  flex-shrink: 0;
+  transition: border-color 0.2s, color 0.2s;
+}
+.v-contact-card:hover .v-cico { border-color: var(--ac-hover); color: var(--accent); }
+.v-cname {
+  display: block;
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text);
+  font-family: 'JetBrains Mono', monospace;
+  margin-bottom: 3px;
+  transition: color 0.2s;
+}
+.v-cuser { display: block; font-size: 0.62rem; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+
+/* Footer */
+.v-footer {
+  border-top: 1px solid var(--border);
+  padding: 24px 0;
+  text-align: center;
+  font-size: 0.62rem;
+  color: var(--muted);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-top: 40px;
+}
+.void-b .v-footer { margin: 0 60px; }
+.oxide-b .v-footer { margin: 0 60px; }
+
+
+/* ════════════════════════════════════════
+   MOCK VISIBILITY
+════════════════════════════════════════ */
+.mock { display: none; }
+.mock.active { display: block; }
+
+/* ════════════════════════════════════════
+   CONTROLS BAR
+════════════════════════════════════════ */
+.controls {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: rgba(4,4,4,0.98);
+  border-top: 1px solid #1e1e1e;
+  display: flex;
+  align-items: stretch;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+  height: 46px;
+}
+.ctrl-sep {
+  width: 1px;
+  background: #1a1a1a;
+  flex-shrink: 0;
+}
+.ctrl-label {
+  padding: 0 14px;
+  font-size: 0.56rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #2a2a2a;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  font-family: 'JetBrains Mono', monospace;
+}
+.theme-group { display: flex; }
+.theme-btn {
+  padding: 0 18px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: none;
+  color: #2e2e2e;
+  border: none;
+  border-right: 1px solid #1a1a1a;
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s;
+  white-space: nowrap;
+  height: 100%;
+}
+.theme-btn:hover { color: #666; }
+.theme-btn.active { color: #f0f0f0; background: #111; }
+
+.accent-group {
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  gap: 8px;
+  flex: 1;
+}
+.swatch {
+  width: 18px; height: 18px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: transform 0.15s;
+  flex-shrink: 0;
+}
+.swatch:hover { transform: scale(1.25); }
+.swatch.active {
+  transform: scale(1.15);
+  outline: 1px solid rgba(255,255,255,0.5);
+  outline-offset: 2px;
+}
+.accent-custom {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 14px;
+  border-left: 1px solid #1a1a1a;
+  height: 100%;
+}
+.accent-hex {
+  background: none;
+  border: 1px solid #1e1e1e;
+  color: #444;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  padding: 3px 8px;
+  width: 78px;
+  letter-spacing: 0.08em;
+  outline: none;
+  transition: border-color 0.2s, color 0.2s;
+}
+.accent-hex:focus { border-color: #333; color: #888; }
+.cdot { width: 12px; height: 12px; border: 1px solid #2a2a2a; flex-shrink: 0; }
+</style>
+</head>
+<body>
+
+
+<!-- ═══════════════ VOID A ═══════════════ -->
+<div class="mock void void-a active" id="mock-void-a">
+  <nav class="v-nav">
+    <a href="#">About</a><a href="#">Stack</a><a href="#">Projects</a><a href="#">Education</a><a href="#">Connect</a>
+  </nav>
+  <div class="v-hero">
+    <div class="v-name">Albert</div>
+    <div class="v-tagline">CS Student @ Innopolis University</div>
+    <div class="v-term">
+      <div class="v-term-bar"><div class="v-term-dot"></div>zsh &bull; backend</div>
+      <div class="v-term-body">
+        <span class="t-u">abeb</span> <span class="t-p">~/portfolio</span><br>
+        <span class="t-u">❯</span> whoami<br>
+        <span class="t-d">backend developer</span><br>
+        <span class="t-u">abeb</span> <span class="t-p">~/portfolio</span><br>
+        <span class="t-u">❯</span> stack --focus<br>
+        <span class="t-tag">go</span><span class="t-tag">kafka</span><span class="t-tag">postgresql</span>
+      </div>
+    </div>
+  </div>
+  <div class="v-content">
+    <div class="v-section">
+      <h2 class="v-h2"><span class="s-num">01 —</span>About</h2>
+      <p class="v-about">I'm Albert, a Go backend developer who builds microservices and works with Kafka, PostgreSQL, and Docker. I care about how things work under the hood — not just using tools, but understanding them.</p>
+    </div>
+    <div class="v-section">
+      <h2 class="v-h2"><span class="s-num">02 —</span>Stack</h2>
+      <div class="v-stack-grid">
+        <div class="v-stack-cat">
+          <div class="v-stack-cat-name">Languages</div>
+          <div class="v-stack-tags">
+            <span class="v-stack-tag">Go</span><span class="v-stack-tag">Python</span><span class="v-stack-tag">C++</span><span class="v-stack-tag">Java</span>
+          </div>
+        </div>
+        <div class="v-stack-cat">
+          <div class="v-stack-cat-name">Backend</div>
+          <div class="v-stack-tags">
+            <span class="v-stack-tag">REST API</span><span class="v-stack-tag">gRPC</span><span class="v-stack-tag">Kafka</span>
+          </div>
+        </div>
+        <div class="v-stack-cat">
+          <div class="v-stack-cat-name">Databases</div>
+          <div class="v-stack-tags">
+            <span class="v-stack-tag">PostgreSQL</span><span class="v-stack-tag">Redis</span><span class="v-stack-tag">MongoDB</span>
+          </div>
+        </div>
+        <div class="v-stack-cat">
+          <div class="v-stack-cat-name">DevOps & Tools</div>
+          <div class="v-stack-tags">
+            <span class="v-stack-tag">Docker</span><span class="v-stack-tag">Linux</span><span class="v-stack-tag">Git</span><span class="v-stack-tag">Bash</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="v-section">
+      <h2 class="v-h2"><span class="s-num">03 —</span>Projects</h2>
+      <div class="v-projects">
+        <div class="v-project">
+          <div class="v-proj-img">preview</div>
+          <div class="v-proj-body">
+            <div class="v-proj-row"><div class="v-proj-title">Microservice Gateway</div><div class="v-proj-arrow">↗</div></div>
+            <div class="v-proj-desc">gRPC-based API gateway with rate limiting and JWT auth. Handles 50k+ req/s.</div>
+            <div class="v-tags"><span class="v-tag">Go</span><span class="v-tag">gRPC</span><span class="v-tag">Kafka</span><span class="v-tag">PostgreSQL</span></div>
+          </div>
+        </div>
+        <div class="v-project">
+          <div class="v-proj-img" style="background:transparent;">no image</div>
+          <div class="v-proj-body">
+            <div class="v-proj-row"><div class="v-proj-title">Distributed Cache Layer</div><div class="v-proj-arrow">↗</div></div>
+            <div class="v-proj-desc">Redis-backed cache with adaptive TTL and cache-aside invalidation.</div>
+            <div class="v-tags"><span class="v-tag">Go</span><span class="v-tag">Redis</span><span class="v-tag">Docker</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="v-section">
+      <h2 class="v-h2"><span class="s-num">04 —</span>Education</h2>
+      <div class="v-edu">
+        <div class="v-edu-logo">IU</div>
+        <div>
+          <div class="v-edu-uni">Innopolis University</div>
+          <div class="v-edu-prog">Computer Science Program</div>
+          <div class="v-edu-desc">Studying at one of Russia's most innovative technical universities, focusing on cutting-edge technology and computer science fundamentals.</div>
+        </div>
+      </div>
+    </div>
+    <div class="v-section">
+      <h2 class="v-h2"><span class="s-num">05 —</span>Connect</h2>
+      <div class="v-contact">
+        <a class="v-contact-card" href="#"><div class="v-cico">TG</div><div><span class="v-cname">Telegram</span><span class="v-cuser">@abeb021</span></div></a>
+        <a class="v-contact-card" href="#"><div class="v-cico">GH</div><div><span class="v-cname">GitHub</span><span class="v-cuser">@abeb021</span></div></a>
+        <a class="v-contact-card" href="#"><div class="v-cico">LC</div><div><span class="v-cname">LeetCode</span><span class="v-cuser">@abeb021</span></div></a>
+      </div>
+    </div>
+  </div>
+  <div class="v-footer">© 2025 · Albert</div>
+</div>
+
+
+<!-- ═══════════════ VOID B ═══════════════ -->
+<div class="mock void void-b" id="mock-void-b">
+  <nav class="v-nav">
+    <div class="v-nav-left">
+      <a href="#">About</a><a href="#">Stack</a><a href="#">Projects</a><a href="#">Education</a>
+    </div>
+    <a href="#" style="margin-left:auto;">Connect ↗</a>
+  </nav>
+  <div class="v-hero">
+    <div>
+      <div class="v-name">AL<span>BERT</span></div>
+      <div class="v-tagline">CS Student @ Innopolis University</div>
+    </div>
+    <div class="v-hero-right">
+      <div class="v-term">
+        <div class="v-term-bar"><div class="v-term-dot"></div>zsh &bull; backend</div>
+        <div class="v-term-body">
+          <span class="t-u">abeb</span> <span class="t-p">~/portfolio</span><br>
+          <span class="t-u">❯</span> whoami<br>
+          <span class="t-d">backend developer</span><br>
+          <span class="t-u">❯</span> stack --focus<br>
+          <span class="t-tag">go</span><span class="t-tag">kafka</span><span class="t-tag">postgresql</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="v-content">
+    <div class="v-section">
+      <h2 class="v-h2"><span class="s-num">01 —</span>About</h2>
+      <p class="v-about">I'm Albert, a Go backend developer who builds microservices and works with Kafka, PostgreSQL, and Docker. I care about how things work under the hood — not just using tools, but understanding them.</p>
+    </div>
+    <div class="v-section">
+      <h2 class="v-h2"><span class="s-num">02 —</span>Stack</h2>
+      <div class="v-stack-grid">
+        <div class="v-stack-cat">
+          <div class="v-stack-cat-name">Languages</div>
+          <div class="v-stack-tags"><span class="v-stack-tag">Go</span><span class="v-stack-tag">Python</span><span class="v-stack-tag">C++</span><span class="v-stack-tag">Java</span></div>
+        </div>
+        <div class="v-stack-cat">
+          <div class="v-stack-cat-name">Backend</div>
+          <div class="v-stack-tags"><span class="v-stack-tag">REST API</span><span class="v-stack-tag">gRPC</span><span class="v-stack-tag">Kafka</span></div>
+        </div>
+        <div class="v-stack-cat">
+          <div class="v-stack-cat-name">Databases</div>
+          <div class="v-stack-tags"><span class="v-stack-tag">PostgreSQL</span><span class="v-stack-tag">Redis</span><span class="v-stack-tag">MongoDB</span></div>
+        </div>
+        <div class="v-stack-cat">
+          <div class="v-stack-cat-name">DevOps & Tools</div>
+          <div class="v-stack-tags"><span class="v-stack-tag">Docker</span><span class="v-stack-tag">Linux</span><span class="v-stack-tag">Git</span><span class="v-stack-tag">Bash</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="v-section">
+      <h2 class="v-h2"><span class="s-num">03 —</span>Projects</h2>
+      <div class="v-projects">
+        <div class="v-project">
+          <div class="v-proj-img">preview</div>
+          <div class="v-proj-body">
+            <div class="v-proj-row"><div class="v-proj-title">Microservice Gateway</div><div class="v-proj-arrow">↗</div></div>
+            <div class="v-proj-desc">gRPC-based API gateway with rate limiting and JWT auth. 50k+ req/s.</div>
+            <div class="v-tags"><span class="v-tag">Go</span><span class="v-tag">gRPC</span><span class="v-tag">Kafka</span></div>
+          </div>
+        </div>
+        <div class="v-project">
+          <div class="v-proj-img" style="background:transparent;">no image</div>
+          <div class="v-proj-body">
+            <div class="v-proj-row"><div class="v-proj-title">Distributed Cache Layer</div><div class="v-proj-arrow">↗</div></div>
+            <div class="v-proj-desc">Redis-backed cache with adaptive TTL and invalidation strategies.</div>
+            <div class="v-tags"><span class="v-tag">Go</span><span class="v-tag">Redis</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="v-section">
+      <h2 class="v-h2"><span class="s-num">04 —</span>Education</h2>
+      <div class="v-edu">
+        <div class="v-edu-logo">IU</div>
+        <div>
+          <div class="v-edu-uni">Innopolis University</div>
+          <div class="v-edu-prog">Computer Science Program</div>
+          <div class="v-edu-desc">Studying at one of Russia's most innovative technical universities, focusing on cutting-edge technology and CS fundamentals.</div>
+        </div>
+      </div>
+    </div>
+    <div class="v-section">
+      <h2 class="v-h2"><span class="s-num">05 —</span>Connect</h2>
+      <div class="v-contact">
+        <a class="v-contact-card" href="#"><div class="v-cico">TG</div><div><span class="v-cname">Telegram</span><span class="v-cuser">@abeb021</span></div></a>
+        <a class="v-contact-card" href="#"><div class="v-cico">GH</div><div><span class="v-cname">GitHub</span><span class="v-cuser">@abeb021</span></div></a>
+        <a class="v-contact-card" href="#"><div class="v-cico">LC</div><div><span class="v-cname">LeetCode</span><span class="v-cuser">@abeb021</span></div></a>
+      </div>
+    </div>
+  </div>
+  <div class="v-footer">© 2025 · Albert</div>
+</div>
+
+
+<!-- ═══════════════ OXIDE A ═══════════════ -->
+<div class="mock oxide oxide-a" id="mock-oxide-a">
+  <nav class="v-nav">
+    <a href="#">About</a><a href="#">Stack</a><a href="#">Projects</a><a href="#">Education</a><a href="#">Connect</a>
+  </nav>
+  <div class="v-hero">
+    <div class="v-name">Albert</div>
+    <div class="v-tagline">CS Student @ Innopolis University</div>
+    <div class="v-term">
+      <div class="v-term-bar"><div class="v-term-dot"></div>zsh &bull; backend</div>
+      <div class="v-term-body">
+        <span class="t-u">abeb</span> <span class="t-p">~/portfolio</span><br>
+        <span class="t-u">❯</span> whoami<br>
+        <span class="t-d">backend developer</span><br>
+        <span class="t-u">abeb</span> <span class="t-p">~/portfolio</span><br>
+        <span class="t-u">❯</span> stack --focus<br>
+        <span class="t-tag">go</span><span class="t-tag">kafka</span><span class="t-tag">postgresql</span>
+      </div>
+    </div>
+  </div>
+  <div class="v-content">
+    <div class="v-section">
+      <h2 class="v-h2"><span class="s-num">01 —</span>About</h2>
+      <p class="v-about">I'm Albert, a Go backend developer who builds microservices and works with Kafka, PostgreSQL, and Docker. I care about how things work under the hood — not just using tools, but understanding them.</p>
+    </div>
+    <div class="v-section">
+      <h2 class="v-h2"><span class="s-num">02 —</span>Stack</h2>
+      <div class="v-stack-grid">
+        <div class="v-stack-cat">
+          <div class="v-stack-cat-name">Languages</div>
+          <div class="v-stack-tags"><span class="v-stack-tag">Go</span><span class="v-stack-tag">Python</span><span class="v-stack-tag">C++</span><span class="v-stack-tag">Java</span></div>
+        </div>
+        <div class="v-stack-cat">
+          <div class="v-stack-cat-name">Backend</div>
+          <div class="v-stack-tags"><span class="v-stack-tag">REST API</span><span class="v-stack-tag">gRPC</span><span class="v-stack-tag">Kafka</span></div>
+        </div>
+        <div class="v-stack-cat">
+          <div class="v-stack-cat-name">Databases</div>
+          <div class="v-stack-tags"><span class="v-stack-tag">PostgreSQL</span><span class="v-stack-tag">Redis</span><span class="v-stack-tag">MongoDB</span></div>
+        </div>
+        <div class="v-stack-cat">
+          <div class="v-stack-cat-name">DevOps & Tools</div>
+          <div class="v-stack-tags"><span class="v-stack-tag">Docker</span><span class="v-stack-tag">Linux</span><span class="v-stack-tag">Git</span><span class="v-stack-tag">Bash</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="v-section">
+      <h2 class="v-h2"><span class="s-num">03 —</span>Projects</h2>
+      <div class="v-projects">
+        <div class="v-project">
+          <div class="v-proj-img">preview</div>
+          <div class="v-proj-body">
+            <div class="v-proj-row"><div class="v-proj-title">Microservice Gateway</div><div class="v-proj-arrow">↗</div></div>
+            <div class="v-proj-desc">gRPC-based API gateway with rate limiting and JWT auth. 50k+ req/s.</div>
+            <div class="v-tags"><span class="v-tag">Go</span><span class="v-tag">gRPC</span><span class="v-tag">Kafka</span></div>
+          </div>
+        </div>
+        <div class="v-project">
+          <div class="v-proj-img" style="background:transparent;">no image</div>
+          <div class="v-proj-body">
+            <div class="v-proj-row"><div class="v-proj-title">Distributed Cache Layer</div><div class="v-proj-arrow">↗</div></div>
+            <div class="v-proj-desc">Redis-backed cache with adaptive TTL and invalidation strategies.</div>
+            <div class="v-tags"><span class="v-tag">Go</span><span class="v-tag">Redis</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="v-section">
+      <h2 class="v-h2"><span class="s-num">04 —</span>Education</h2>
+      <div class="v-edu">
+        <div class="v-edu-logo">IU</div>
+        <div>
+          <div class="v-edu-uni">Innopolis University</div>
+          <div class="v-edu-prog">Computer Science Program</div>
+          <div class="v-edu-desc">Studying at one of Russia's most innovative technical universities, focusing on cutting-edge technology and CS fundamentals.</div>
+        </div>
+      </div>
+    </div>
+    <div class="v-section">
+      <h2 class="v-h2"><span class="s-num">05 —</span>Connect</h2>
+      <div class="v-contact">
+        <a class="v-contact-card" href="#"><div class="v-cico">TG</div><div><span class="v-cname">Telegram</span><span class="v-cuser">@abeb021</span></div></a>
+        <a class="v-contact-card" href="#"><div class="v-cico">GH</div><div><span class="v-cname">GitHub</span><span class="v-cuser">@abeb021</span></div></a>
+        <a class="v-contact-card" href="#"><div class="v-cico">LC</div><div><span class="v-cname">LeetCode</span><span class="v-cuser">@abeb021</span></div></a>
+      </div>
+    </div>
+  </div>
+  <div class="v-footer">© 2025 · Albert</div>
+</div>
+
+
+<!-- ═══════════════ OXIDE B ═══════════════ -->
+<div class="mock oxide oxide-b" id="mock-oxide-b">
+  <nav class="v-nav">
+    <div class="v-nav-left">
+      <a href="#">About</a><a href="#">Stack</a><a href="#">Projects</a><a href="#">Education</a><a href="#">Connect</a>
+    </div>
+    <div class="v-nav-right">backend dev</div>
+  </nav>
+  <div class="v-hero">
+    <div class="v-eyebrow">Portfolio — 2025</div>
+    <div class="v-name">
+      Albert
+      <span class="v-name-line2">Go / Backend</span>
+    </div>
+    <div class="v-tagline">CS Student @ Innopolis University</div>
+    <div class="v-term">
+      <div class="v-term-bar"><div class="v-term-dot"></div>zsh &bull; backend</div>
+      <div class="v-term-body">
+        <span class="t-u">abeb</span> <span class="t-p">~/portfolio</span><br>
+        <span class="t-u">❯</span> whoami<br>
+        <span class="t-d">backend developer</span><br>
+        <span class="t-u">❯</span> stack --focus<br>
+        <span class="t-tag">go</span><span class="t-tag">kafka</span><span class="t-tag">postgresql</span>
+      </div>
+    </div>
+  </div>
+  <div class="v-content">
+    <div class="v-section">
+      <h2 class="v-h2"><span class="s-num">01 —</span>About</h2>
+      <p class="v-about">I'm Albert, a Go backend developer who builds microservices and works with Kafka, PostgreSQL, and Docker. I care about how things work under the hood — not just using tools, but understanding them.</p>
+    </div>
+    <div class="v-section">
+      <h2 class="v-h2"><span class="s-num">02 —</span>Stack</h2>
+      <div class="v-stack-grid">
+        <div class="v-stack-cat">
+          <div class="v-stack-cat-name">Languages</div>
+          <div class="v-stack-tags"><span class="v-stack-tag">Go</span><span class="v-stack-tag">Python</span><span class="v-stack-tag">C++</span><span class="v-stack-tag">Java</span></div>
+        </div>
+        <div class="v-stack-cat">
+          <div class="v-stack-cat-name">Backend</div>
+          <div class="v-stack-tags"><span class="v-stack-tag">REST API</span><span class="v-stack-tag">gRPC</span><span class="v-stack-tag">Kafka</span></div>
+        </div>
+        <div class="v-stack-cat">
+          <div class="v-stack-cat-name">Databases</div>
+          <div class="v-stack-tags"><span class="v-stack-tag">PostgreSQL</span><span class="v-stack-tag">Redis</span><span class="v-stack-tag">MongoDB</span></div>
+        </div>
+        <div class="v-stack-cat">
+          <div class="v-stack-cat-name">DevOps & Tools</div>
+          <div class="v-stack-tags"><span class="v-stack-tag">Docker</span><span class="v-stack-tag">Linux</span><span class="v-stack-tag">Git</span><span class="v-stack-tag">Bash</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="v-section">
+      <h2 class="v-h2"><span class="s-num">03 —</span>Projects</h2>
+      <div class="v-projects">
+        <div class="v-project">
+          <div class="v-proj-img">preview</div>
+          <div class="v-proj-body">
+            <div class="v-proj-row"><div class="v-proj-title">Microservice Gateway</div><div class="v-proj-arrow">↗</div></div>
+            <div class="v-proj-desc">gRPC-based API gateway with rate limiting and JWT auth. 50k+ req/s.</div>
+            <div class="v-tags"><span class="v-tag">Go</span><span class="v-tag">gRPC</span><span class="v-tag">Kafka</span></div>
+          </div>
+        </div>
+        <div class="v-project">
+          <div class="v-proj-img" style="background:transparent;">no image</div>
+          <div class="v-proj-body">
+            <div class="v-proj-row"><div class="v-proj-title">Distributed Cache Layer</div><div class="v-proj-arrow">↗</div></div>
+            <div class="v-proj-desc">Redis-backed cache with adaptive TTL and invalidation strategies.</div>
+            <div class="v-tags"><span class="v-tag">Go</span><span class="v-tag">Redis</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="v-section">
+      <h2 class="v-h2"><span class="s-num">04 —</span>Education</h2>
+      <div class="v-edu">
+        <div class="v-edu-logo">IU</div>
+        <div>
+          <div class="v-edu-uni">Innopolis University</div>
+          <div class="v-edu-prog">Computer Science Program</div>
+          <div class="v-edu-desc">Studying at one of Russia's most innovative technical universities, focusing on cutting-edge technology and CS fundamentals.</div>
+        </div>
+      </div>
+    </div>
+    <div class="v-section">
+      <h2 class="v-h2"><span class="s-num">05 —</span>Connect</h2>
+      <div class="v-contact">
+        <a class="v-contact-card" href="#"><div class="v-cico">TG</div><div><span class="v-cname">Telegram</span><span class="v-cuser">@abeb021</span></div></a>
+        <a class="v-contact-card" href="#"><div class="v-cico">GH</div><div><span class="v-cname">GitHub</span><span class="v-cuser">@abeb021</span></div></a>
+        <a class="v-contact-card" href="#"><div class="v-cico">LC</div><div><span class="v-cname">LeetCode</span><span class="v-cuser">@abeb021</span></div></a>
+      </div>
+    </div>
+  </div>
+  <div class="v-footer">© 2025 · Albert</div>
+</div>
+
+
+<!-- CONTROLS -->
+<div class="controls">
+  <span class="ctrl-label">Layout</span>
+  <div class="ctrl-sep"></div>
+  <div class="theme-group">
+    <button class="theme-btn active" data-mock="void-a">Void A &mdash; centered</button>
+    <button class="theme-btn" data-mock="void-b">Void B &mdash; split hero</button>
+    <button class="theme-btn" data-mock="oxide-a">Oxide A &mdash; clean</button>
+    <button class="theme-btn" data-mock="oxide-b">Oxide B &mdash; italic name</button>
+  </div>
+  <div class="ctrl-sep"></div>
+  <span class="ctrl-label">Accent</span>
+  <div class="accent-group">
+    <div class="swatch active" style="background:#C5F037" data-c="#C5F037" title="Acid Lime"></div>
+    <div class="swatch" style="background:#00E5FF" data-c="#00E5FF" title="Cyan"></div>
+    <div class="swatch" style="background:#FF8C42" data-c="#FF8C42" title="Amber"></div>
+    <div class="swatch" style="background:#FF3B52" data-c="#FF3B52" title="Crimson"></div>
+    <div class="swatch" style="background:#B668FF" data-c="#B668FF" title="Violet"></div>
+    <div class="swatch" style="background:#FFD100" data-c="#FFD100" title="Gold"></div>
+    <div class="swatch" style="background:#00FF87" data-c="#00FF87" title="Mint"></div>
+    <div class="swatch" style="background:#FF6EB4" data-c="#FF6EB4" title="Pink"></div>
+    <div class="swatch" style="background:#ffffff" data-c="#ffffff" title="White"></div>
+    <div class="accent-custom">
+      <div class="cdot" id="cdot"></div>
+      <input class="accent-hex" type="text" id="chex" placeholder="#C5F037" maxlength="7">
+    </div>
+  </div>
+</div>
+
+<script>
+const root = document.documentElement;
+
+function setAccent(c) {
+  root.style.setProperty('--accent', c);
+  document.getElementById('chex').value = c;
+  document.getElementById('cdot').style.background = c;
+  document.querySelectorAll('.swatch').forEach(s => s.classList.toggle('active', s.dataset.c === c));
+}
+
+document.querySelectorAll('.swatch').forEach(s => s.addEventListener('click', () => setAccent(s.dataset.c)));
+
+document.getElementById('chex').addEventListener('input', e => {
+  const v = e.target.value.trim();
+  if (/^#[0-9a-fA-F]{6}$/.test(v)) {
+    root.style.setProperty('--accent', v);
+    document.getElementById('cdot').style.background = v;
+    document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+  }
+});
+
+document.querySelectorAll('.theme-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.mock').forEach(m => m.classList.remove('active'));
+    document.getElementById('mock-' + btn.dataset.mock).classList.add('active');
+    document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
+
+setAccent('#C5F037');
+</script>
+</body>
+</html>

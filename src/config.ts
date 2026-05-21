@@ -7,14 +7,22 @@ type TechItem = {
   customIcon?: string;
 };
 
+export type Project = {
+  title: string;
+  description: string;
+  image?: string;
+  stack: string[];
+  url: string;
+};
+
 export const personalInfo = {
   name: "Albert",
-  tagline: "CS Student @ Innopolis University",
+  tagline: "Backend Dev / Linux Enthusiast",
   footerName: "Albert",
 };
 
 export const about = {
-  description: [ 
+  description: [
     "I'm Albert, a Go backend developer who builds microservices and works with Kafka, PostgreSQL, and Docker. I care about how things work under the hood — not just using tools, but understanding them. I run Arch Linux as my main system and enjoy exploring how operating systems and networks function.",
   ],
 };
@@ -51,6 +59,18 @@ export const techStack: Record<string, TechItem[]> = {
   ],
 };
 
+// Add your projects here
+export const projects: Project[] = [
+  // Example:
+  // {
+  //   title: "My Project",
+  //   description: "Short description of what it does.",
+  //   image: "/project-preview.png",   // optional — place image in /public
+  //   stack: ["Go", "Kafka", "PostgreSQL"],
+  //   url: "https://github.com/abeb021/my-project",
+  // },
+];
+
 export const contact = [
   {
     platform: "Telegram",
@@ -76,17 +96,18 @@ export const contact = [
 ];
 
 export const navLinks = [
-  { label: "About", href: "#about" },
-  { label: "Stack", href: "#stack" },
+  { label: "About",     href: "#about" },
+  { label: "Stack",     href: "#stack" },
+  { label: "Projects",  href: "#projects" },
   { label: "Education", href: "#education" },
-  { label: "Connect", href: "#contact" },
+  { label: "Connect",   href: "#contact" },
 ];
 
 // Animation settings
 export const animationSettings = {
-  particleCount: 15000,
-  particleSize: 2,
-  rotationSpeed: 0.0005,
+  particleCount: 12000,
+  particleSize: 1.5,
+  rotationSpeed: 0.0004,
   cameraZ: 500,
   fadeDelay: 500,
   sectionDelayStep: 200,

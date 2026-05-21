@@ -1,117 +1,51 @@
 .education-card {
+  border: 1px solid var(--border);
+  padding: 24px 28px;
   display: flex;
-  align-items: center;
-  gap: 40px;
-  padding: 25px;
-  background-color: rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
-  border-left: 3px solid var(--accent-color);
+  gap: 28px;
+  align-items: flex-start;
+  transition: border-color var(--transition);
 }
 
-.university-logo {
-  flex-shrink: 0;
-}
+.education-card:hover { border-color: var(--border-h); }
+
+.university-logo { flex-shrink: 0; }
 
 .logo-3d {
-  width: 100px;
-  height: 100px;
-  background: linear-gradient(145deg, #222, #111);
-  color: white;
+  width: 64px; height: 64px;
+  border: 1px solid var(--border);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2.5rem;
-  font-weight: bold;
-  border-radius: 50%;
-  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.4), -5px -5px 15px rgba(255, 255, 255, 0.05);
-  position: relative;
-  overflow: hidden;
-  animation: rotate3d 8s infinite linear;
-}
-
-.logo-3d::before,
-.logo-3d::after {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(45deg, transparent 40%, rgba(255, 255, 255, 0.1) 50%, transparent 60%);
-  transform: rotate(45deg);
-}
-
-.logo-3d::before {
-  animation: shine 8s infinite linear;
-}
-
-.logo-3d::after {
-  opacity: 0;
-  animation: fade-in 0.5s 4s forwards, shine1 8s infinite 4s linear;
-}
-
-@keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes shine {
-  0% {
-    transform: translateX(-200%) rotate(45deg);
-  }
-  100% {
-    transform: translateX(200%) rotate(45deg);
-  }
-}
-
-@keyframes shine1 {
-  0% {
-    transform: translateX(200%) rotate(45deg);
-  }
-  100% {
-    transform: translateX(-200%) rotate(45deg);
-  }
-}
-
-@keyframes rotate3d {
-  0% {
-    transform: perspective(500px) rotateY(0deg);
-  }
-  100% {
-    transform: perspective(500px) rotateY(360deg);
-  }
+  font-family: var(--display-font);
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--accent);
 }
 
 .education-details h3 {
-  margin-bottom: 10px;
-  font-size: 1.8rem;
-  letter-spacing: 1px;
+  font-size: 1.3rem;
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
 }
 
 .education-program {
-  color: var(--secondary-color);
-  font-weight: 600;
-  margin-bottom: 15px;
-  font-size: 1.2rem;
-  letter-spacing: 1px;
+  font-family: var(--body-font);
+  font-size: 0.62rem;
+  color: var(--accent);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 400;
+  margin-bottom: 12px;
+  opacity: 0.85;
+}
+
+.education-details p:last-child {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.75;
 }
 
 @media (max-width: 768px) {
-  .education-card {
-    flex-direction: column;
-    text-align: center;
-    gap: 25px;
-  }
-}
-
-@media (max-width: 480px) {
-  .logo-3d {
-    width: 80px;
-    height: 80px;
-    font-size: 2rem;
-  }
+  .education-card { flex-direction: column; gap: 18px; }
 }
