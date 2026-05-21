@@ -17,6 +17,10 @@
     'bruh',
   ];
 
+  function _accent() {
+    return getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#C5F037';
+  }
+
   // ── Overlay ──
   var _kf = document.createElement('style');
   _kf.textContent = '@keyframes _nuhuh{0%{opacity:0;transform:translate(-50%,-52%) scale(0.88)}12%{opacity:1;transform:translate(-50%,-50%) scale(1)}78%{opacity:1;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.04)}}';
@@ -27,6 +31,7 @@
 
   function _block() {
     _el.textContent = PHRASES[Math.floor(Math.random() * PHRASES.length)];
+    _el.style.color = _accent();
     _el.style.animation = 'none';
     void _el.offsetWidth;
     _el.style.animation = '_nuhuh 1.4s cubic-bezier(0.22,1,0.36,1) forwards';
@@ -63,7 +68,7 @@
       '    ██║   ██║  ██║███████╗██║  ██║███████╗\n' +
       '    ╚═╝   ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚══════╝\n' +
       '\n',
-      'color: #C5F037; font-family: monospace; font-size: 11px; line-height: 1.1;'
+      'color: ' + _accent() + '; font-family: monospace; font-size: 11px; line-height: 1.1;'
     );
 
     console.log(

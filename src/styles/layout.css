@@ -100,7 +100,6 @@
 main { counter-reset: section; }
 
 section {
-  border-top: 1px solid var(--border);
   padding: 44px 0;
   opacity: 0;
   transform: translateY(14px);
@@ -122,7 +121,7 @@ section h2 {
 
 section h2::before {
   counter-increment: section;
-  content: "0" counter(section) " —";
+  content: "0" counter(section) " ";
   color: var(--accent);
   font-family: var(--body-font);
   font-size: 0.6em;
