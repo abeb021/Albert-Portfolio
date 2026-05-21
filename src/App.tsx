@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './style.css';
-import * as THREE from 'three';
-import StackIcon from "tech-stack-icons";
+import StackIcon from 'tech-stack-icons';
 import {
   personalInfo, about, education, techStack,
   projects, contact, navLinks, animationSettings,
 } from './config';
+import { useBGPTopology } from './hooks/useBGPTopology';
 
 const supportedStackIcons = new Set([
   'go', 'python', 'c++', 'java', 'grpc', 'apachekafka',
@@ -13,270 +13,30 @@ const supportedStackIcons = new Set([
   'linux', 'git', 'bash', 'jwt',
 ]);
 
+const ACCENTS = ['#C5F037', '#00E5FF', '#FF8C42', '#FF3B52', '#B668FF', '#FFD100'];
+
+const categoryDescriptions: Record<string, string> = {
+  languages:      'Primary and supporting languages for backend development.',
+  backend:        'APIs, communication patterns, and service architecture.',
+  databases:      'Storage engines for transactional and cache-driven workloads.',
+  devopsAndTools: 'Containerization, automation, and daily dev environment.',
+};
+
 function App() {
-  const canvasRef = useRef<HTMLDivElement>(null);
-  const lineMatRef = useRef<THREE.LineBasicMaterial | null>(null);
-  const hasTyped = useRef(false);
-  const hasTypedShell = useRef(false);
+  const canvasRef       = useRef<HTMLDivElement>(null);
+  const hasTyped        = useRef(false);
+  const hasTypedShell   = useRef(false);
   const [showArchLine, setShowArchLine] = useState(false);
-  const [accentColor, setAccentColor] = useState('#C5F037');
+  const [accentColor, setAccentColor]   = useState('#C5F037');
 
-  const ACCENTS = ['#C5F037', '#00E5FF', '#FF8C42', '#FF3B52', '#B668FF', '#FFD100'];
+  useBGPTopology(canvasRef, accentColor);
 
-  const gwMatRef = useRef<THREE.PointsMaterial | null>(null);
-
+  // Sync CSS accent variable
   useEffect(() => {
     document.documentElement.style.setProperty('--accent', accentColor);
-    if (lineMatRef.current) lineMatRef.current.color.setStyle(accentColor);
-    if (gwMatRef.current)   gwMatRef.current.color.setStyle(accentColor);
   }, [accentColor]);
 
-  // BGP/AS topology: 5 autonomous systems with intra-cluster mesh (white)
-  // and inter-cluster peering lines (accent). Mouse repels nodes.
-  useEffect(() => {
-    const container = canvasRef.current;
-    if (!container) return;
-
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 2000);
-    camera.position.z = 500;
-
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: false });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setClearColor(0x000000, 0);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    container.appendChild(renderer.domElement);
-
-    // ── BACKGROUND: dim rotating dust ──
-    const BG = 3500;
-    const bgVerts = new Float32Array(BG * 3);
-    for (let i = 0; i < BG * 3; i++) bgVerts[i] = (Math.random() - 0.5) * 2000;
-    const bgGeom = new THREE.BufferGeometry();
-    bgGeom.setAttribute('position', new THREE.Float32BufferAttribute(bgVerts, 3));
-    const bgMat = new THREE.PointsMaterial({ color: 0xffffff, size: 1.3, transparent: true, opacity: 0.0 });
-    const bgParticles = new THREE.Points(bgGeom, bgMat);
-    scene.add(bgParticles); // kept for rotation ref, invisible
-
-    // ── AS TOPOLOGY — random placement ──
-    const AS_COUNT  = 5;
-    const MIN_SEP   = 275;
-    const AS_CENTERS: [number, number, number][] = [];
-    let attempts = 0;
-    while (AS_CENTERS.length < AS_COUNT && attempts < 2000) {
-      attempts++;
-      const x = (Math.random() - 0.5) * 820;
-      const y = (Math.random() - 0.5) * 460;
-      const z = (Math.random() - 0.5) * 50;
-      let ok = true;
-      for (const [ex, ey] of AS_CENTERS) {
-        if (Math.sqrt((x - ex) ** 2 + (y - ey) ** 2) < MIN_SEP) { ok = false; break; }
-      }
-      if (ok) AS_CENTERS.push([x, y, z]);
-    }
-    while (AS_CENTERS.length < AS_COUNT)
-      AS_CENTERS.push([(Math.random() - 0.5) * 820, (Math.random() - 0.5) * 460, 0]);
-    const NPC              = 10;
-    const C                = AS_COUNT * NPC;
-    const CLUSTER_R        = 100;
-    const INTRA_DIST       = 140;
-    const INTER_DIST       = 400;
-    const MAX_GATEWAYS     = 3;
-    const SPRING_K   = 0.038;
-    const DAMPING    = 0.84;
-    const MOUSE_RAD  = 220;
-    const REPEL      = 3200;
-
-    const origPos    = new Float32Array(C * 3);
-    const currPos    = new Float32Array(C * 3);
-    const vel        = new Float32Array(C * 3);
-    const nodeAS     = new Uint8Array(C);
-
-    for (let ci = 0; ci < AS_COUNT; ci++) {
-      const [cx, cy, cz] = AS_CENTERS[ci];
-      for (let ni = 0; ni < NPC; ni++) {
-        const i = ci * NPC + ni;
-        nodeAS[i] = ci;
-        // uniform sphere distribution
-        const r     = CLUSTER_R * Math.cbrt(Math.random());
-        const theta = Math.random() * Math.PI * 2;
-        const phi   = Math.acos(2 * Math.random() - 1);
-        origPos[i*3]   = currPos[i*3]   = cx + r * Math.sin(phi) * Math.cos(theta);
-        origPos[i*3+1] = currPos[i*3+1] = cy + r * Math.sin(phi) * Math.sin(theta);
-        origPos[i*3+2] = currPos[i*3+2] = cz + r * Math.cos(phi) * 0.22;
-      }
-    }
-
-    // Node points
-    const nodeGeom    = new THREE.BufferGeometry();
-    const nodePosAttr = new THREE.BufferAttribute(currPos, 3);
-    nodePosAttr.setUsage(THREE.DynamicDrawUsage);
-    nodeGeom.setAttribute('position', nodePosAttr);
-    const nodeMat = new THREE.PointsMaterial({ color: 0xffffff, size: 2.5, transparent: true, opacity: 1.0 });
-    scene.add(new THREE.Points(nodeGeom, nodeMat));
-
-    // Gateway nodes — larger, accent colored, separate geometry
-    const isGateway    = new Uint8Array(C);
-    const gwPosBuf     = new Float32Array(AS_COUNT * AS_COUNT * MAX_GATEWAYS * 2 * 3);
-    const gwGeom       = new THREE.BufferGeometry();
-    const gwPosAttr    = new THREE.BufferAttribute(gwPosBuf, 3);
-    gwPosAttr.setUsage(THREE.DynamicDrawUsage);
-    gwGeom.setAttribute('position', gwPosAttr);
-    const gwMat = new THREE.PointsMaterial({ color: accentColor, size: 6.5, transparent: true, opacity: 1.0 });
-    gwMatRef.current = gwMat;
-    scene.add(new THREE.Points(gwGeom, gwMat));
-
-    // Intra-cluster lines (white, dim)
-    const MAX_INTRA   = 8000;
-    const intraPosArr = new Float32Array(MAX_INTRA * 6);
-    const intraGeom   = new THREE.BufferGeometry();
-    const intraPosAttr = new THREE.BufferAttribute(intraPosArr, 3);
-    intraPosAttr.setUsage(THREE.DynamicDrawUsage);
-    intraGeom.setAttribute('position', intraPosAttr);
-    const intraMat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.45 });
-    scene.add(new THREE.LineSegments(intraGeom, intraMat));
-
-    // Inter-cluster (BGP peering) lines — accent color
-    const MAX_INTER   = 1500;
-    const interPosArr = new Float32Array(MAX_INTER * 6);
-    const interGeom   = new THREE.BufferGeometry();
-    const interPosAttr = new THREE.BufferAttribute(interPosArr, 3);
-    interPosAttr.setUsage(THREE.DynamicDrawUsage);
-    interGeom.setAttribute('position', interPosAttr);
-    const interMat = new THREE.LineBasicMaterial({ color: accentColor, transparent: true, opacity: 0.9 });
-    lineMatRef.current = interMat;
-    scene.add(new THREE.LineSegments(interGeom, interMat));
-
-    // Mouse
-    const mouse      = { x: 99999, y: 99999 };
-    const mouseNDC   = new THREE.Vector2();
-    const raycaster  = new THREE.Raycaster();
-    const mousePlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
-    const mouseWorld = new THREE.Vector3();
-    function onMouseMove(e: MouseEvent) { mouse.x = e.clientX; mouse.y = e.clientY; }
-    window.addEventListener('mousemove', onMouseMove);
-
-    let animId: number;
-
-    function animate() {
-      animId = requestAnimationFrame(animate);
-
-      bgParticles.rotation.x += 0.00022;
-      bgParticles.rotation.y += 0.00022;
-
-      mouseNDC.set(
-        (mouse.x / window.innerWidth)  *  2 - 1,
-        (mouse.y / window.innerHeight) * -2 + 1,
-      );
-      raycaster.setFromCamera(mouseNDC, camera);
-      raycaster.ray.intersectPlane(mousePlane, mouseWorld);
-
-      // Physics
-      for (let i = 0; i < C; i++) {
-        const ix = i*3, iy = ix+1, iz = ix+2;
-        vel[ix] += (origPos[ix] - currPos[ix]) * SPRING_K;
-        vel[iy] += (origPos[iy] - currPos[iy]) * SPRING_K;
-        vel[iz] += (origPos[iz] - currPos[iz]) * SPRING_K;
-        const dx = currPos[ix] - mouseWorld.x;
-        const dy = currPos[iy] - mouseWorld.y;
-        const d  = Math.sqrt(dx*dx + dy*dy);
-        if (d < MOUSE_RAD && d > 1) {
-          const f = REPEL / (d * d);
-          vel[ix] += (dx / d) * f;
-          vel[iy] += (dy / d) * f;
-        }
-        vel[ix] *= DAMPING; vel[iy] *= DAMPING; vel[iz] *= DAMPING;
-        currPos[ix] += vel[ix]; currPos[iy] += vel[iy]; currPos[iz] += vel[iz];
-      }
-      nodePosAttr.needsUpdate = true;
-
-      // Intra-cluster mesh
-      let ii = 0;
-      for (let i = 0; i < C; i++) {
-        for (let j = i + 1; j < C; j++) {
-          if (nodeAS[i] !== nodeAS[j]) continue;
-          const dx = currPos[i*3] - currPos[j*3];
-          const dy = currPos[i*3+1] - currPos[j*3+1];
-          const dz = currPos[i*3+2] - currPos[j*3+2];
-          if (Math.sqrt(dx*dx + dy*dy + dz*dz) < INTRA_DIST && ii + 6 <= intraPosArr.length) {
-            intraPosArr[ii++] = currPos[i*3];   intraPosArr[ii++] = currPos[i*3+1]; intraPosArr[ii++] = currPos[i*3+2];
-            intraPosArr[ii++] = currPos[j*3];   intraPosArr[ii++] = currPos[j*3+1]; intraPosArr[ii++] = currPos[j*3+2];
-          }
-        }
-      }
-      intraGeom.setDrawRange(0, ii / 3);
-      intraPosAttr.needsUpdate = true;
-
-      // Inter-cluster BGP: K nearest pairs per AS-pair
-      let xi = 0;
-      isGateway.fill(0);
-      const candD = new Float32Array(NPC * NPC);
-      const candI = new Uint16Array(NPC * NPC);
-      const candJ = new Uint16Array(NPC * NPC);
-      for (let ca = 0; ca < AS_COUNT; ca++) {
-        for (let cb = ca + 1; cb < AS_COUNT; cb++) {
-          let nc = 0;
-          for (let na = 0; na < NPC; na++) {
-            for (let nb = 0; nb < NPC; nb++) {
-              const i = ca * NPC + na, j = cb * NPC + nb;
-              const dx = currPos[i*3] - currPos[j*3];
-              const dy = currPos[i*3+1] - currPos[j*3+1];
-              const dz = currPos[i*3+2] - currPos[j*3+2];
-              const d  = Math.sqrt(dx*dx + dy*dy + dz*dz);
-              if (d < INTER_DIST) { candD[nc] = d; candI[nc] = i; candJ[nc] = j; nc++; }
-            }
-          }
-          // Partial selection sort — keep MAX_GATEWAYS shortest
-          const keep = Math.min(MAX_GATEWAYS, nc);
-          for (let k = 0; k < keep; k++) {
-            let minK = k;
-            for (let m = k + 1; m < nc; m++) if (candD[m] < candD[minK]) minK = m;
-            let td = candD[k]; candD[k] = candD[minK]; candD[minK] = td;
-            let ti = candI[k]; candI[k] = candI[minK]; candI[minK] = ti;
-            let tj = candJ[k]; candJ[k] = candJ[minK]; candJ[minK] = tj;
-            const i = candI[k], j = candJ[k];
-            if (xi + 6 <= interPosArr.length) {
-              interPosArr[xi++] = currPos[i*3];   interPosArr[xi++] = currPos[i*3+1]; interPosArr[xi++] = currPos[i*3+2];
-              interPosArr[xi++] = currPos[j*3];   interPosArr[xi++] = currPos[j*3+1]; interPosArr[xi++] = currPos[j*3+2];
-              isGateway[i] = 1; isGateway[j] = 1;
-            }
-          }
-        }
-      }
-      interGeom.setDrawRange(0, xi / 3);
-      interPosAttr.needsUpdate = true;
-
-      // Update gateway node positions
-      let gi = 0;
-      for (let i = 0; i < C; i++) {
-        if (!isGateway[i]) continue;
-        gwPosBuf[gi++] = currPos[i*3]; gwPosBuf[gi++] = currPos[i*3+1]; gwPosBuf[gi++] = currPos[i*3+2];
-      }
-      gwGeom.setDrawRange(0, gi / 3);
-      gwPosAttr.needsUpdate = true;
-
-      renderer.render(scene, camera);
-    }
-    animate();
-
-    function onResize() {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    }
-    window.addEventListener('resize', onResize);
-
-    return () => {
-      window.removeEventListener('mousemove', onMouseMove);
-      window.removeEventListener('resize', onResize);
-      cancelAnimationFrame(animId);
-      lineMatRef.current = null;
-      gwMatRef.current   = null;
-      renderer.dispose();
-      if (container.contains(renderer.domElement)) container.removeChild(renderer.domElement);
-    };
-  }, []);
-
-  // Typewriter — tagline
+  // Tagline typewriter
   useEffect(() => {
     if (hasTyped.current) return;
     hasTyped.current = true;
@@ -286,16 +46,16 @@ function App() {
     el.textContent = '';
     el.classList.add('typing');
     let i = 0;
-    function type() {
+    const type = () => {
       if (i < text.length && el) {
         el.textContent += text.charAt(i++);
         setTimeout(type, animationSettings.typewriterSpeed);
       }
-    }
+    };
     type();
   }, []);
 
-  // Fade-in on load
+  // Fade-in sections
   useEffect(() => {
     setTimeout(() => {
       document.querySelector('.header')?.classList.add('visible');
@@ -306,7 +66,7 @@ function App() {
     }, animationSettings.fadeDelay);
   }, []);
 
-  // Typewriter — shell commands
+  // Shell typewriter
   useEffect(() => {
     if (hasTypedShell.current) return;
     hasTypedShell.current = true;
@@ -328,8 +88,7 @@ function App() {
     line4.style.display = 'none';
     line5.style.display = 'none';
 
-    let i = 0;
-    let j = 0;
+    let i = 0, j = 0;
 
     const typeFirst = () => {
       if (i < commandOne.length) {
@@ -362,13 +121,6 @@ function App() {
     cmd1.classList.add('typing-cursor');
     setTimeout(typeFirst, 350);
   }, []);
-
-  const categoryDescriptions: Record<string, string> = {
-    languages:    'Primary and supporting languages for backend development.',
-    backend:      'APIs, communication patterns, and service architecture.',
-    databases:    'Storage engines for transactional and cache-driven workloads.',
-    devopsAndTools: 'Containerization, automation, and daily dev environment.',
-  };
 
   return (
     <>
@@ -475,7 +227,9 @@ function App() {
             {projects.length === 0 ? (
               <div className="projects-empty">
                 <p>No projects yet. Add them in <code>src/config.ts</code> → <code>projects</code> array.</p>
-                <p style={{ marginTop: '12px', opacity: 0.5 }}>Each entry takes <code>title</code>, <code>description</code>, <code>stack</code>, <code>url</code>, and an optional <code>image</code>.</p>
+                <p style={{ marginTop: '12px', opacity: 0.5 }}>
+                  Each entry takes <code>title</code>, <code>description</code>, <code>stack</code>, <code>url</code>, and an optional <code>image</code>.
+                </p>
               </div>
             ) : (
               <div className="projects-list">
@@ -488,11 +242,9 @@ function App() {
                     rel="noopener noreferrer"
                   >
                     <div className="project-image-wrap">
-                      {project.image ? (
-                        <img src={project.image} alt={project.title} className="project-image" />
-                      ) : (
-                        'no preview'
-                      )}
+                      {project.image
+                        ? <img src={project.image} alt={project.title} className="project-image" />
+                        : 'no preview'}
                     </div>
                     <div className="project-body">
                       <div className="project-header">
@@ -538,11 +290,9 @@ function App() {
                   rel="noopener noreferrer"
                 >
                   <div className="contact-icon">
-                    {item.iconType === 'image' ? (
-                      <img src={item.iconSrc} alt={item.platform} />
-                    ) : (
-                      <StackIcon name={item.iconName!} />
-                    )}
+                    {item.iconType === 'image'
+                      ? <img src={item.iconSrc} alt={item.platform} />
+                      : <StackIcon name={item.iconName} />}
                   </div>
                   <div className="contact-info">
                     <h3>{item.platform}</h3>

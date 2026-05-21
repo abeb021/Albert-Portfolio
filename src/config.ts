@@ -15,6 +15,11 @@ export type Project = {
   url: string;
 };
 
+type ContactBase = { platform: string; username: string; url: string };
+export type ContactItem =
+  | (ContactBase & { iconType: 'image'; iconSrc: string })
+  | (ContactBase & { iconType: 'stack'; iconName: string });
+
 export const personalInfo = {
   name: "Albert",
   tagline: "Backend Dev / Linux Enthusiast",
@@ -71,7 +76,7 @@ export const projects: Project[] = [
   // },
 ];
 
-export const contact = [
+export const contact: ContactItem[] = [
   {
     platform: "Telegram",
     username: "@abeb021",
@@ -103,13 +108,8 @@ export const navLinks = [
   { label: "Connect",   href: "#contact" },
 ];
 
-// Animation settings
 export const animationSettings = {
-  particleCount: 12000,
-  particleSize: 1.5,
-  rotationSpeed: 0.0004,
-  cameraZ: 500,
-  fadeDelay: 500,
+  fadeDelay:        500,
   sectionDelayStep: 200,
-  typewriterSpeed: 100,
+  typewriterSpeed:  100,
 };
