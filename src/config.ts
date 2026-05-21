@@ -55,7 +55,7 @@ export const contact = [
   {
     platform: "Telegram",
     username: "@abeb021",
-    url: "https://t.me/abeb_dev",
+    url: "https://t.me/abeb021",
     iconType: "image",
     iconSrc: "/telegram-svgrepo-com.svg",
   },
@@ -65,6 +65,13 @@ export const contact = [
     url: "https://github.com/abeb021",
     iconType: "stack",
     iconName: "github",
+  },
+  {
+    platform: "Leetcode",
+    username: "@abeb021",
+    url: "https://leetcode.com/abeb021",
+    iconType: "image",
+    iconSrc: "/leetcode-logo.svg",
   },
 ];
 
