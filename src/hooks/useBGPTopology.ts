@@ -16,19 +16,23 @@ const REPEL      = 3200;
 const MAX_INTRA  = 8000;
 const MAX_INTER  = 1500;
 
-function randomCenters(): [number, number, number][] {
+function randomCenters(halfW: number, halfH: number): [number, number, number][] {
+  // Right side only: x in [10%, 85%] of visible half-width (positive = right)
+  const xMin =  halfW * 0.1;
+  const xMax =  halfW * 0.85;
+  const yMax =  halfH * 0.88;
   const centers: [number, number, number][] = [];
   let attempts = 0;
   while (centers.length < AS_COUNT && attempts < 2000) {
     attempts++;
-    const x = (Math.random() - 0.5) * 820;
-    const y = (Math.random() - 0.5) * 460;
+    const x = xMin + Math.random() * (xMax - xMin);
+    const y = (Math.random() - 0.5) * 2 * yMax;
     const z = (Math.random() - 0.5) * 50;
     const ok = centers.every(([ex, ey]) => Math.sqrt((x - ex) ** 2 + (y - ey) ** 2) >= MIN_SEP);
     if (ok) centers.push([x, y, z]);
   }
   while (centers.length < AS_COUNT)
-    centers.push([(Math.random() - 0.5) * 820, (Math.random() - 0.5) * 460, 0]);
+    centers.push([xMin + Math.random() * (xMax - xMin), (Math.random() - 0.5) * 2 * yMax, 0]);
   return centers;
 }
 
@@ -67,7 +71,9 @@ export function useBGPTopology(
     const vel     = new Float32Array(C * 3);
     const nodeAS  = new Uint8Array(C);
 
-    const centers = randomCenters();
+    const halfH   = Math.tan((75 / 2) * Math.PI / 180) * 500;
+    const halfW   = halfH * (window.innerWidth / window.innerHeight);
+    const centers = randomCenters(halfW, halfH);
     for (let ci = 0; ci < centers.length; ci++) {
       const [cx, cy, cz] = centers[ci];
       for (let ni = 0; ni < NPC; ni++) {

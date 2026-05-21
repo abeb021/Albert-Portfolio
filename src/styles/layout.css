@@ -113,9 +113,6 @@ section h2 {
   font-weight: 800;
   margin-bottom: 32px;
   letter-spacing: -0.01em;
-  display: flex;
-  align-items: center;
-  gap: 16px;
 }
 
 section h2::before {
@@ -129,12 +126,6 @@ section h2::before {
   flex-shrink: 0;
 }
 
-section h2::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: var(--border);
-}
 
 /* glass-panel stripped — kept as no-op for compat */
 .glass-panel {}
