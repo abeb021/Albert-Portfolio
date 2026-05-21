@@ -27,24 +27,28 @@ const X_LIFE_MS  = 2600;
 
 function randomCenters(halfW: number, halfH: number): [number, number, number][] {
   const portrait = halfW < halfH;
-  // Portrait (phone): spread full width. Landscape: bias to right half.
-  const xMin = portrait ? -halfW * 0.8 :  halfW * 0.1;
-  const xMax = portrait ?  halfW * 0.8 :  halfW * 0.85;
-  const yMax = halfH * 0.88;
-  // Scale min separation to fit available space
+  const xMin =  portrait ? -halfW * 0.8 : halfW * 0.1;
+  const xMax =  portrait ?  halfW * 0.8 : halfW * 0.85;
+  // y: header occupies roughly top 40% of screen (positive y in Three.js = up)
+  const yTop =  halfH * 0.75;  // stay below this — just under header
+  const yBot = -halfH * 0.88;
   const sep  = Math.min(MIN_SEP, ((xMax - xMin) * 0.9) / Math.ceil(Math.sqrt(AS_COUNT)));
   const centers: [number, number, number][] = [];
   let attempts = 0;
   while (centers.length < AS_COUNT && attempts < 2000) {
     attempts++;
     const x = xMin + Math.random() * (xMax - xMin);
-    const y = (Math.random() - 0.5) * 2 * yMax;
+    const y = yBot  + Math.random() * (yTop - yBot);
     const z = (Math.random() - 0.5) * 50;
     const ok = centers.every(([ex, ey]) => Math.sqrt((x - ex) ** 2 + (y - ey) ** 2) >= sep);
     if (ok) centers.push([x, y, z]);
   }
   while (centers.length < AS_COUNT)
-    centers.push([xMin + Math.random() * (xMax - xMin), (Math.random() - 0.5) * 2 * yMax, 0]);
+    centers.push([
+      xMin + Math.random() * (xMax - xMin),
+      yBot + Math.random() * (yTop - yBot),
+      0,
+    ]);
   return centers;
 }
 
