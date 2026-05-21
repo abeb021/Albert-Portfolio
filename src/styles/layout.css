@@ -6,6 +6,10 @@
   opacity: 0.4;
 }
 
+@media (max-width: 768px) {
+  #canvas-container { opacity: 0.2; }
+}
+
 /* ── NAV ── */
 .navbar {
   position: fixed;

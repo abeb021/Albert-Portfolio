@@ -26,9 +26,13 @@ const X_BLINK_MS = 360;
 const X_LIFE_MS  = 2600;
 
 function randomCenters(halfW: number, halfH: number): [number, number, number][] {
-  const xMin = halfW * 0.1;
-  const xMax = halfW * 0.85;
+  const portrait = halfW < halfH;
+  // Portrait (phone): spread full width. Landscape: bias to right half.
+  const xMin = portrait ? -halfW * 0.8 :  halfW * 0.1;
+  const xMax = portrait ?  halfW * 0.8 :  halfW * 0.85;
   const yMax = halfH * 0.88;
+  // Scale min separation to fit available space
+  const sep  = Math.min(MIN_SEP, ((xMax - xMin) * 0.9) / Math.ceil(Math.sqrt(AS_COUNT)));
   const centers: [number, number, number][] = [];
   let attempts = 0;
   while (centers.length < AS_COUNT && attempts < 2000) {
@@ -36,7 +40,7 @@ function randomCenters(halfW: number, halfH: number): [number, number, number][]
     const x = xMin + Math.random() * (xMax - xMin);
     const y = (Math.random() - 0.5) * 2 * yMax;
     const z = (Math.random() - 0.5) * 50;
-    const ok = centers.every(([ex, ey]) => Math.sqrt((x - ex) ** 2 + (y - ey) ** 2) >= MIN_SEP);
+    const ok = centers.every(([ex, ey]) => Math.sqrt((x - ex) ** 2 + (y - ey) ** 2) >= sep);
     if (ok) centers.push([x, y, z]);
   }
   while (centers.length < AS_COUNT)
@@ -126,7 +130,7 @@ export function useBGPTopology(
     intraPosAttr.setUsage(THREE.DynamicDrawUsage);
     intraGeom.setAttribute('position', intraPosAttr);
     scene.add(new THREE.LineSegments(intraGeom,
-      new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.45 })));
+      new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.3 })));
 
     // Inter-cluster BGP lines
     const interPosArr  = new Float32Array(MAX_INTER * 6);
