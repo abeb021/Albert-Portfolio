@@ -5,7 +5,7 @@
   --bg:          #000000;
   --surface:     #0f0f0f;
   --text:        #ffffff;
-  --muted:       #666666;
+  --muted:       #848484;
   --border:      rgba(255, 255, 255, 0.09);
   --border-h:    rgba(255, 255, 255, 0.22);
   --ac-border:   color-mix(in srgb, var(--accent) 16%, transparent);
