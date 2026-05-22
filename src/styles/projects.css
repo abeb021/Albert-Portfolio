@@ -5,6 +5,7 @@
   grid-template-columns: 200px 1fr;
   border: 1px solid var(--border);
   margin-bottom: -1px;
+  background: var(--surface);
   text-decoration: none;
   color: var(--text);
   cursor: pointer;

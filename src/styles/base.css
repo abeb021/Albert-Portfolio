@@ -2,9 +2,10 @@
 
 :root {
   --accent:      #C5F037;
-  --bg:          #070707;
-  --text:        #f0f0f0;
-  --muted:       #444444;
+  --bg:          #000000;
+  --surface:     #0f0f0f;
+  --text:        #ffffff;
+  --muted:       #666666;
   --border:      rgba(255, 255, 255, 0.09);
   --border-h:    rgba(255, 255, 255, 0.22);
   --ac-border:   color-mix(in srgb, var(--accent) 16%, transparent);

@@ -1,13 +1,14 @@
 .education-card {
   border: 1px solid var(--border);
   padding: 24px 28px;
+  background: var(--surface);
   display: flex;
   gap: 28px;
   align-items: flex-start;
   transition: border-color var(--transition);
 }
 
-.education-card:hover { border-color: var(--border-h); }
+.education-card:hover { border-color: var(--accent); }
 
 .university-logo { flex-shrink: 0; }
 

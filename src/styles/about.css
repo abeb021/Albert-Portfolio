@@ -1,7 +1,18 @@
+.about-text {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: 24px 28px;
+  max-width: 760px;
+  transition: border-color var(--transition);
+}
+
+.about-text:hover { border-color: var(--accent); }
+
 .about-text p {
   font-size: 0.9rem;
   line-height: 1.95;
   color: var(--muted);
-  max-width: 760px;
   letter-spacing: 0.01em;
 }
+
+.about-text p + p { margin-top: 14px; }
