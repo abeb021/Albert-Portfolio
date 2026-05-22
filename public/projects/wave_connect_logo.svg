@@ -1,0 +1,49 @@
+<svg width="600" height="360" viewBox="0 0 680 408" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>Wave Connect logo</title>
+  <desc>Minimalist dark tech logo with three cyan glowing nodes in a triangle and a central hollow gateway ring on a deep navy background with dot grid.</desc>
+  <defs>
+    <pattern id="dots" x="0" y="0" width="30" height="30" patternUnits="userSpaceOnUse">
+      <circle cx="15" cy="15" r="0.9" fill="white" opacity="0.18"/>
+    </pattern>
+  </defs>
+
+  <!-- Background -->
+  <rect width="680" height="408" fill="#0f172a"/>
+
+  <!-- Dot grid overlay -->
+  <rect width="680" height="408" fill="url(#dots)"/>
+
+  <!-- Triangle connector lines -->
+  <line x1="340" y1="60" x2="214" y2="278" stroke="#00d4d4" stroke-width="0.9" opacity="0.55"/>
+  <line x1="340" y1="60" x2="466" y2="278" stroke="#00d4d4" stroke-width="0.9" opacity="0.55"/>
+  <line x1="214" y1="278" x2="466" y2="278" stroke="#00d4d4" stroke-width="0.9" opacity="0.55"/>
+
+  <!-- Gateway spoke lines (center to each node) -->
+  <line x1="340" y1="204" x2="340" y2="60" stroke="#00d4d4" stroke-width="0.5" opacity="0.28" stroke-dasharray="4 5"/>
+  <line x1="340" y1="204" x2="214" y2="278" stroke="#00d4d4" stroke-width="0.5" opacity="0.28" stroke-dasharray="4 5"/>
+  <line x1="340" y1="204" x2="466" y2="278" stroke="#00d4d4" stroke-width="0.5" opacity="0.28" stroke-dasharray="4 5"/>
+
+  <!-- Node A — Top -->
+  <circle cx="340" cy="60" r="26" fill="#00d4d4" opacity="0.06"/>
+  <circle cx="340" cy="60" r="17" fill="#00d4d4" opacity="0.14"/>
+  <circle cx="340" cy="60" r="10" fill="#00d4d4" opacity="0.35"/>
+  <circle cx="340" cy="60" r="6"  fill="#00d4d4"/>
+
+  <!-- Node B — Bottom-left -->
+  <circle cx="214" cy="278" r="26" fill="#00d4d4" opacity="0.06"/>
+  <circle cx="214" cy="278" r="17" fill="#00d4d4" opacity="0.14"/>
+  <circle cx="214" cy="278" r="10" fill="#00d4d4" opacity="0.35"/>
+  <circle cx="214" cy="278" r="6"  fill="#00d4d4"/>
+
+  <!-- Node C — Bottom-right -->
+  <circle cx="466" cy="278" r="26" fill="#00d4d4" opacity="0.06"/>
+  <circle cx="466" cy="278" r="17" fill="#00d4d4" opacity="0.14"/>
+  <circle cx="466" cy="278" r="10" fill="#00d4d4" opacity="0.35"/>
+  <circle cx="466" cy="278" r="6"  fill="#00d4d4"/>
+
+  <!-- Central gateway node — hollow ring with glow -->
+  <circle cx="340" cy="204" r="22" fill="#00d4d4" opacity="0.06"/>
+  <circle cx="340" cy="204" r="15" fill="#00d4d4" opacity="0.10"/>
+  <circle cx="340" cy="204" r="11" fill="none" stroke="#00d4d4" stroke-width="1.5" opacity="0.9"/>
+  <circle cx="340" cy="204" r="4"  fill="#00d4d4" opacity="0.5"/>
+</svg>

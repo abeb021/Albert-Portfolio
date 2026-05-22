@@ -27,13 +27,14 @@ function App() {
   const hasTyped        = useRef(false);
   const hasTypedShell   = useRef(false);
   const [showArchLine, setShowArchLine] = useState(false);
-  const [accentColor, setAccentColor]   = useState('#C5F037');
+  const [accentColor, setAccentColor]   = useState(() => localStorage.getItem('accent') ?? '#C5F037');
 
   useBGPTopology(canvasRef, accentColor);
 
-  // Sync CSS accent variable
+  // Sync CSS accent variable + persist
   useEffect(() => {
     document.documentElement.style.setProperty('--accent', accentColor);
+    localStorage.setItem('accent', accentColor);
   }, [accentColor]);
 
   // Tagline typewriter
