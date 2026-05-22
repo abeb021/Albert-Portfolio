@@ -64,7 +64,6 @@ export const techStack: Record<string, TechItem[]> = {
   ],
 };
 
-// Add your projects here
 export const projects: Project[] = [
   // Example:
   // {
@@ -72,8 +71,21 @@ export const projects: Project[] = [
   //   description: "Short description of what it does.",
   //   image: "/project-preview.png",   // optional — place image in /public
   //   stack: ["Go", "Kafka", "PostgreSQL"],
-  //   url: "https://github.com/abeb021/my-project",
+   //   url: "https://github.com/abeb021/my-project",
   // },
+
+  {
+    title: "Wave Connect",
+    description: "Containerized social backend: API gateway with JWT auth reverse-proxying to Auth, Feed, Profile, and Chat services. Each domain owns its own Postgres DB; profile events propagate through Kafka. Real-time chat via WebSocket.",
+    stack: ["Go", "PostgreSQL", "Kafka", "Docker", "WebSocket", "JWT"],
+    url: "https://github.com/abeb021/Wave-Connect",
+  },
+  {
+    title: "Weather Alert Service",
+    description: "Microservices weather alert system with NGINX gateway and auth_request validation. Background worker polls conditions every 15 min, publishes alert.triggered to Kafka, and delivers email via SMTP notification service.",
+    stack: ["Go", "PostgreSQL", "Redis", "Kafka", "Docker", "JWT"],
+    url: "https://github.com/abeb021/Weather-Alert-Service",
+  },
 ];
 
 export const contact: ContactItem[] = [
