@@ -1,39 +1,38 @@
 .contact-methods {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 10px;
 }
 
 .contact-card {
-  flex: 1;
-  min-width: 200px;
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 18px 20px;
+  padding: 20px 22px;
   border: 1px solid var(--border);
-  background: var(--surface);
+  background: transparent;
   text-decoration: none;
   color: var(--text);
-  transition: border-color var(--transition);
+  transition: border-color var(--transition), background var(--transition);
 }
 
-.contact-card:hover { border-color: var(--accent); }
+.contact-card:hover { border-color: var(--accent); background: var(--ac-fill); }
 .contact-card:hover .contact-info h3 { color: var(--accent); }
 
 .contact-icon {
-  width: 34px; height: 34px;
+  width: 48px; height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--border);
+  background: var(--ac-fill);
+  border: 1px solid var(--ac-border);
   flex-shrink: 0;
-  transition: border-color var(--transition);
+  transition: background var(--transition), border-color var(--transition);
 }
-.contact-card:hover .contact-icon { border-color: var(--ac-hover); }
+.contact-card:hover .contact-icon { background: var(--ac-hover); border-color: var(--accent); }
 
 .contact-icon img,
-.contact-icon > svg { width: 20px; height: 20px; }
+.contact-icon > svg { width: 24px; height: 24px; }
 
 .contact-info h3 {
   font-family: var(--body-font);
@@ -52,5 +51,5 @@
 }
 
 @media (max-width: 768px) {
-  .contact-card { min-width: 100%; }
+  .contact-methods { grid-template-columns: 1fr; }
 }

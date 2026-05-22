@@ -1,20 +1,19 @@
 .education-card {
   border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
   padding: 24px 28px;
-  background: var(--surface);
+  background: rgba(0, 0, 0, 0.25);
   display: flex;
   gap: 28px;
   align-items: flex-start;
-  transition: border-color var(--transition);
 }
-
-.education-card:hover { border-color: var(--accent); }
 
 .university-logo { flex-shrink: 0; }
 
 .logo-3d {
   width: 64px; height: 64px;
-  border: 1px solid var(--border);
+  background: var(--ac-fill);
+  border: 1px solid var(--ac-border);
   display: flex;
   align-items: center;
   justify-content: center;

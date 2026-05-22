@@ -1,12 +1,10 @@
 .about-text {
   border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
   background: var(--surface);
   padding: 24px 28px;
   max-width: 760px;
-  transition: border-color var(--transition);
 }
-
-.about-text:hover { border-color: var(--accent); }
 
 .about-text p {
   font-size: 0.9rem;

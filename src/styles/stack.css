@@ -9,9 +9,24 @@
   padding: 18px 20px;
   background: var(--surface);
   transition: border-color var(--transition);
+  position: relative;
+  overflow: hidden;
 }
 
 .stack-category:hover { border-color: var(--accent); }
+
+.stack-category::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+
+.stack-category:hover::before { transform: scaleX(1); }
 
 .stack-category h3 {
   font-family: var(--body-font);
