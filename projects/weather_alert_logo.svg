@@ -1,0 +1,28 @@
+<svg width="600" height="360" viewBox="0 0 680 408" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>Weather Alert logo</title>
+  <defs>
+    <pattern id="dotsg" x="0" y="0" width="30" height="30" patternUnits="userSpaceOnUse">
+      <circle cx="15" cy="15" r="0.9" fill="white" opacity="0.18"/>
+    </pattern>
+  </defs>
+
+  <rect width="680" height="408" fill="#07130c"/>
+  <rect width="680" height="408" fill="url(#dotsg)"/>
+
+  <!-- Lightning bolt glow -->
+  <polygon points="406,208 282,278 362,278 270,340 390,268 310,268"
+    fill="#4ade80" stroke="#4ade80" stroke-width="28" stroke-opacity="0.07" stroke-linejoin="round"/>
+  <polygon points="406,208 282,278 362,278 270,340 390,268 310,268"
+    fill="#4ade80" stroke="#4ade80" stroke-width="14" stroke-opacity="0.10" stroke-linejoin="round"/>
+  <polygon points="406,208 282,278 362,278 270,340 390,268 310,268" fill="#4ade80"/>
+
+  <!-- Cloud glow layers -->
+  <path d="M 245,214 C 222,214 205,197 205,178 C 205,156 220,138 240,136 C 240,106 262,86 290,86 C 308,68 330,72 340,84 C 350,70 370,66 390,84 C 415,88 436,106 436,136 C 458,138 475,156 475,177 C 475,198 458,214 435,214 Z"
+    fill="#4ade80" stroke="#4ade80" stroke-width="26" stroke-opacity="0.07" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M 245,214 C 222,214 205,197 205,178 C 205,156 220,138 240,136 C 240,106 262,86 290,86 C 308,68 330,72 340,84 C 350,70 370,66 390,84 C 415,88 436,106 436,136 C 458,138 475,156 475,177 C 475,198 458,214 435,214 Z"
+    fill="#4ade80" stroke="#4ade80" stroke-width="13" stroke-opacity="0.10" stroke-linejoin="round" stroke-linecap="round"/>
+
+  <!-- Cloud fill -->
+  <path d="M 245,214 C 222,214 205,197 205,178 C 205,156 220,138 240,136 C 240,106 262,86 290,86 C 308,68 330,72 340,84 C 350,70 370,66 390,84 C 415,88 436,106 436,136 C 458,138 475,156 475,177 C 475,198 458,214 435,214 Z"
+    fill="#4ade80"/>
+</svg>
