@@ -1,5 +1,8 @@
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
+import { LineSegments2 }     from 'three/examples/jsm/lines/LineSegments2.js';
+import { LineSegmentsGeometry } from 'three/examples/jsm/lines/LineSegmentsGeometry.js';
+import { LineMaterial }      from 'three/examples/jsm/lines/LineMaterial.js';
 
 // ── Topology ──
 const AS_COUNT   = 5;
@@ -14,11 +17,11 @@ const SPRING_K   = 0.038;
 const DAMPING    = 0.84;
 const MOUSE_RAD  = 220;
 const REPEL      = 3200;
-const MAX_INTRA  = 8000;
-const MAX_INTER  = 1500;
+const MAX_INTRA  = 512;   // actual max = AS_COUNT * NPC*(NPC-1)/2 ≈ 225
+const MAX_INTER  = 128;   // actual max ≈ AS_COUNT*(AS_COUNT-1)/2 * MAX_GW ≈ 30
 
 // ── Packets ──
-const MAX_SIG    = 5;
+const MAX_SIG    = 20;
 const SIG_SPEED  = 0.024;
 const ARRIVE_MS  = 380;
 const DEAD_MS    = 900;
@@ -53,11 +56,11 @@ export function useBGPTopology(
   containerRef: React.RefObject<HTMLDivElement | null>,
   accentColor: string,
 ) {
-  const lineMatRef = useRef<THREE.LineBasicMaterial | null>(null);
-  const gwMatRef   = useRef<THREE.PointsMaterial   | null>(null);
-  const sigMatRef  = useRef<THREE.PointsMaterial   | null>(null);
-  const xMatRef    = useRef<THREE.LineBasicMaterial | null>(null);
-  const hlMatRef   = useRef<THREE.LineBasicMaterial | null>(null);
+  const lineMatRef = useRef<LineMaterial              | null>(null);
+  const gwMatRef   = useRef<THREE.PointsMaterial      | null>(null);
+  const sigMatRef  = useRef<THREE.PointsMaterial      | null>(null);
+  const xMatRef    = useRef<THREE.LineBasicMaterial   | null>(null);
+  const hlMatRef   = useRef<LineMaterial              | null>(null);
 
   useEffect(() => {
     if (lineMatRef.current) lineMatRef.current.color.setStyle(accentColor);
@@ -75,7 +78,7 @@ export function useBGPTopology(
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 2000);
     camera.position.z = 500;
 
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: false });
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setClearColor(0x000000, 0);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -186,35 +189,35 @@ export function useBGPTopology(
     scene.add(new THREE.Points(gwGeom, gwMat));
 
     const intraPosArr  = new Float32Array(MAX_INTRA * 6);
-    const intraGeom    = new THREE.BufferGeometry();
-    const intraPosAttr = new THREE.BufferAttribute(intraPosArr, 3);
-    intraPosAttr.setUsage(THREE.DynamicDrawUsage);
-    intraGeom.setAttribute('position', intraPosAttr);
-    scene.add(new THREE.LineSegments(intraGeom,
-      new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.3 })));
+    const intraGeom    = new LineSegmentsGeometry();
+    intraGeom.setPositions(new Float32Array(MAX_INTRA * 6));
+    const intraInstBuf = (intraGeom.getAttribute('instanceStart') as THREE.InterleavedBufferAttribute).data as THREE.InstancedInterleavedBuffer;
+    const intraBufArr  = intraInstBuf.array as Float32Array;
+    const intraMat = new LineMaterial({ color: 0xffffff, linewidth: 1.2, transparent: true, opacity: 0.5, resolution: new THREE.Vector2(window.innerWidth, window.innerHeight) });
+    scene.add(new LineSegments2(intraGeom, intraMat));
 
     const interPosArr  = new Float32Array(MAX_INTER * 6);
-    const interGeom    = new THREE.BufferGeometry();
-    const interPosAttr = new THREE.BufferAttribute(interPosArr, 3);
-    interPosAttr.setUsage(THREE.DynamicDrawUsage);
-    interGeom.setAttribute('position', interPosAttr);
-    const interMat = new THREE.LineBasicMaterial({ color: accentColor, transparent: true, opacity: 0.9 });
+    const interGeom    = new LineSegmentsGeometry();
+    interGeom.setPositions(new Float32Array(MAX_INTER * 6));
+    const interInstBuf = (interGeom.getAttribute('instanceStart') as THREE.InterleavedBufferAttribute).data as THREE.InstancedInterleavedBuffer;
+    const interBufArr  = interInstBuf.array as Float32Array;
+    const interMat     = new LineMaterial({ color: new THREE.Color(accentColor).getHex(), linewidth: 2.0, transparent: true, opacity: 0.85, resolution: new THREE.Vector2(window.innerWidth, window.innerHeight) });
     lineMatRef.current = interMat;
-    scene.add(new THREE.LineSegments(interGeom, interMat));
+    scene.add(new LineSegments2(interGeom, interMat));
 
     const candD     = new Float32Array(NPC * NPC);
     const candI     = new Uint16Array(NPC * NPC);
     const candJ     = new Uint16Array(NPC * NPC);
     const gwPairMap = new Uint8Array(C * C);
 
-    const hlPosBuf = new Float32Array(MAX_SIG * 2 * 3);
-    const hlGeom   = new THREE.BufferGeometry();
-    const hlPA     = new THREE.BufferAttribute(hlPosBuf, 3);
-    hlPA.setUsage(THREE.DynamicDrawUsage);
-    hlGeom.setAttribute('position', hlPA);
-    const hlMat = new THREE.LineBasicMaterial({ color: accentColor, transparent: true, opacity: 0.55 });
+    const hlPosBuf  = new Float32Array(MAX_SIG * 6);
+    const hlGeom    = new LineSegmentsGeometry();
+    hlGeom.setPositions(new Float32Array(MAX_SIG * 6));
+    const hlInstBuf = (hlGeom.getAttribute('instanceStart') as THREE.InterleavedBufferAttribute).data as THREE.InstancedInterleavedBuffer;
+    const hlBufArr  = hlInstBuf.array as Float32Array;
+    const hlMat     = new LineMaterial({ color: new THREE.Color(accentColor).getHex(), linewidth: 2.5, transparent: true, opacity: 0.6, resolution: new THREE.Vector2(window.innerWidth, window.innerHeight) });
     hlMatRef.current = hlMat;
-    scene.add(new THREE.LineSegments(hlGeom, hlMat));
+    scene.add(new LineSegments2(hlGeom, hlMat));
 
     const sigPosBuf = new Float32Array(MAX_SIG * 3);
     const sigGeom   = new THREE.BufferGeometry();
@@ -341,8 +344,9 @@ export function useBGPTopology(
           }
         }
       }
-      intraGeom.setDrawRange(0, ii/3);
-      intraPosAttr.needsUpdate = true;
+      intraBufArr.set(intraPosArr.subarray(0, ii));
+      if (ii < MAX_INTRA * 6) intraBufArr.fill(0, ii);
+      intraInstBuf.needsUpdate = true;
 
       // BGP lines (visual only)
       let xi=0;
@@ -372,7 +376,9 @@ export function useBGPTopology(
           }
         }
       }
-      interGeom.setDrawRange(0, xi/3); interPosAttr.needsUpdate=true;
+      interBufArr.set(interPosArr.subarray(0, xi));
+      if (xi < MAX_INTER * 6) interBufArr.fill(0, xi);
+      interInstBuf.needsUpdate = true;
 
       let gi=0;
       for (let i=0; i<C; i++) { if (!isGateway[i]) continue; gwPosBuf[gi++]=currPos[i*3]; gwPosBuf[gi++]=currPos[i*3+1]; gwPosBuf[gi++]=currPos[i*3+2]; }
@@ -436,7 +442,9 @@ export function useBGPTopology(
       }
 
       sigGeom.setDrawRange(0,sc); sigPA.needsUpdate=true;
-      hlGeom.setDrawRange(0,hc*2); hlPA.needsUpdate=true;
+      hlBufArr.set(hlPosBuf.subarray(0, hc*6));
+      if (hc < MAX_SIG) hlBufArr.fill(0, hc*6);
+      hlInstBuf.needsUpdate = true;
       xGeom.setDrawRange(0,xc*4); xPA.needsUpdate=true;
       xMat.opacity=blink&&xc>0?0.95:0.0;
 
@@ -444,13 +452,16 @@ export function useBGPTopology(
     }
     animate();
 
-    const onResize=()=>{ camera.aspect=window.innerWidth/window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth,window.innerHeight); };
+    const onResize=()=>{ camera.aspect=window.innerWidth/window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth,window.innerHeight); intraMat.resolution.set(window.innerWidth,window.innerHeight); interMat.resolution.set(window.innerWidth,window.innerHeight); hlMat.resolution.set(window.innerWidth,window.innerHeight); };
     window.addEventListener('resize', onResize);
 
     return () => {
       window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('resize', onResize);
       cancelAnimationFrame(animId);
+      intraGeom.dispose(); intraMat.dispose();
+      interGeom.dispose(); interMat.dispose();
+      hlGeom.dispose();    hlMat.dispose();
       lineMatRef.current=null; gwMatRef.current=null;
       sigMatRef.current=null; xMatRef.current=null; hlMatRef.current=null;
       renderer.dispose();
